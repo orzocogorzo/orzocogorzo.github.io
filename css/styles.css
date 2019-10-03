@@ -41,14 +41,18 @@ nav a:hover{
   color: #706f6f;
 }
 
+/*HEADERFOOTER*/
 
 header{
   height: 75px;
   position: fixed;
   width: 100%;
   background-color: transparent;
+  transition: background-color 0.8s ease-in-out;
 }
-
+.opaque{
+  background-color: whitesmoke;
+}
 footer{
   height: 90px;
   position: relative;
@@ -109,7 +113,7 @@ img{
   
 }
 #inscripcions{
-  background-color: crimson;
+  background-color: wood;
   height: 500px;
 }
 #media{
