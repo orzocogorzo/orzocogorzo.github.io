@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:700');
+
 *{
   margin: 0px;
   padding: 0px;
@@ -35,10 +38,17 @@ p {
 a {
   text-decoration: none;
   color: orange;
+  cursor: pointer;
 }
 
 nav a:hover{
   color: #706f6f;
+}
+
+.container{
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
 }
 
 /*HEADERFOOTER*/
@@ -50,8 +60,13 @@ header{
   background-color: transparent;
   transition: background-color 0.8s ease-in-out;
 }
+.header__logo{
+  height: 75px;
+  padding: ;
+}
 .opaque{
   background-color: whitesmoke;
+  height: 75px;
 }
 footer{
   height: 90px;
@@ -70,9 +85,9 @@ nav ul {
 }
 nav ul li {
   display: inline-block;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
   font-size: 1.5rem;
   font-weight: normal;
 }
@@ -82,10 +97,47 @@ nav ul li {
 .floatleft{
   float: left;
 }
-img{
-  width: 150px;
-  height: 50px;
-}
+
+/*NAVEGADOR LATERAL*/
+#navlateral{
+  justify-self: end;
+  margin-right: 40px;
+  align-self: center;
+  position: absolute;
+  grid-area: 1 / 1 / 2 /2;
+  pointer-events: auto;
+  }
+  
+  .style_navlateral{
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-box-pack: justify;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .style_navlateral_item{
+    position: relative;
+  }
+  
+  .style_navlateral_symbol{
+    fill: transparent;
+    transition: all 0.2s ease-in-out;
+    stroke: white;
+    stroke-width: 4px;
+    -webkit-box-flex: 0;
+  }
+
+
+
+
+
+
+
+
 .section{
   background-color: #ffffff;
   background-repeat: no-repeat;
