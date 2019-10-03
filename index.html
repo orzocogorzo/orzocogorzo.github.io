@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cursa Equinox Trail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/reet.css" />
+    
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="index.html" title="Ir a la página de inicio"><img src="img/logo.png" alt="Logo KM0" class="floatleft"></a>
+      <nav class="floatright">
+        <ul>
+          <li><a href="#section1" title="section1" class="scroll-link" data-id="home">Home<a/></li>
+          <li><a href="#section2" title="section2" class="scroll-link" data-id="informacio">Informació</a></li>
+          <li><a href="#section3" title="section3" class="scroll-link" data-id="circuits">Circuits</a></li>
+          <li><a href="#section4" title="section4" class="scroll-link" data-id="reglament">Reglament</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div id="home" class="content">
+    <section class="parallax" id="section1">
+      <h1>EQUINOX TRAIL 2019</h1>
+    </section>
+    <section class="parallax" id="section2">
+      
+    </section>
+    <section class="parallax" id="section3">
+      Section 3 <br>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </section>
+    <section class="parallax" id="section4">
+      Section 4 <br>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </section>
+  </div>
+
+
+  <!-- scripts -->
+  <script>
+    $('a[href*="#"]')
+          .not('[href="#"]')
+          .not('[href="#0"]')
+          .click(function(event) {
+            if (
+              location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
+              && 
+              location.hostname == this.hostname
+            ) {
+              var target = $(this.hash);
+              target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+              if (target.length) {
+                event.preventDefault();
+                $('html, body').animate({
+                  scrollTop: target.offset().top    
+                }, 800, function() {
+                  var $target = $(target);
+                  $target.focus();
+                  if ($target.is(":focus")) { 
+                    return false;
+                  } else {
+                    $target.attr('tabindex','-1'); 
+                    $target.focus(); 
+                  };
+                });
+              }
+            }
+          });
+  </script>
+</body>
+
