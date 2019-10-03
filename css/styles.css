@@ -37,7 +37,7 @@ a {
   color: orange;
 }
 
-a:hover{
+nav a:hover{
   color: #706f6f;
 }
 
@@ -47,6 +47,17 @@ header{
   position: fixed;
   width: 100%;
   background-color: transparent;
+}
+
+footer{
+  height: 90px;
+  position: relative;
+  width: 100%;
+  background-color: #706f6f;
+}
+
+footer p{
+  text-align: center;
 }
 
 nav ul {
@@ -78,25 +89,37 @@ img{
   background-size: 100%;
   height: 100%;
 }
-#section1{
+#inici{
   background-image: url("../img/bg-2.jpg");
   height: 750px;
 }
-#section1 h1{
+#inici h1{
   text-align: center;
   line-height: 750px;
 }
-#section2{
+#info{
   background-color: aqua;
   height: 500px;
 }
-#section3{
+#track{
   background-image: url("..//img/bg-1.jpg")
   
 }
-#section4{
+#inscripcions{
   background-color: crimson;
   height: 500px;
+}
+#media{
+  background-color: blueviolet;
+  height: 500px
+}
+#resultats{
+  background-color: chartreuse;
+  height: 600px;
+}
+#documents{
+  background-color: rgb(116, 39, 146);
+  height: 600px;
 }
 
 
