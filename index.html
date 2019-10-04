@@ -129,6 +129,16 @@
     // SECTIONS SCROLL HANDLING
     var sections = Array.apply(null, document.getElementsByTagName('section'));
     function navPanelTagger (ev) {
+      var offsets = sections.map(function (section) {
+        // debugger;
+        var bounding = section.getBoundingClientRect();
+        console.log(section.id, Math.max(bounding.height + bounding.bottom, Math.min(bounding.height, bounding.top + bounding.height)));// ((bounding.height + (window.innerHeight - bounding.bottom))/window.innerHeight));
+        return {
+          section: section,
+          offset: Math.abs(bounding.top)/bounding.height
+        }
+      });
+
       function isInViewPort (element) {
         var bounding = element.getBoundingClientRect();
         return bounding.top >= 0 &&
@@ -137,18 +147,24 @@
           bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)*/;
       }
 
-      var currentSection = sections.filter(function (section) {
-        return isInViewPort(section);
-      }).shift();
+      // var currentSection = sections.filter(function (section) {
+      //   return isInViewPort(section);
+      // }).shift();
+
+      // debugger;
+
+      currentSection = offsets.sort(function (d1, d2) {
+        return d1.offset - d2.offset; 
+      }).shift().section;
 
       if (currentSection) {
         document.body.setAttribute('section', currentSection.id);
       } else {
         document.body.setAttribute('section', 'info');
       }
-
     };
     scrollHandler.onScroll(navPanelTagger);
+    navPanelTagger();
 
     Array.apply(null, document.querySelectorAll('a[href*="#"]'))
       .filter(function (el) {
