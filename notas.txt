@@ -1,3 +1,2 @@
 - navegadors intrapagina active...
--imatge de fons (color logo troll)
--font myriad pro bold troll
+-imatge de fons (color logo troll) i real? tarda a carregar?

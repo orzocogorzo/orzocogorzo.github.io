@@ -10,6 +10,7 @@
 *{
   margin: 0px;
   padding: 0px;
+  box-sizing: border-box;
 }
 
 html{
@@ -87,6 +88,14 @@ footer p{
   text-align: center;
 }
 
+.floatright{
+  float: right;
+}
+.floatleft{
+  float: left;
+}
+
+/*MENU NAV*/
 nav ul {
   list-style: none;
   background-color: transparent;
@@ -96,20 +105,51 @@ nav ul li {
   padding-top: 15px;
   padding-left: 15px;
   padding-right: 15px;
-  font-size: 1.5rem;
   font-weight: normal;
 }
-.floatright{
-  float: right;
+
+
+body[section="info"] .header_navmenu_item:nth-child(1) a {
+  color: #706f6f;
+  font-weight: bold;
 }
-.floatleft{
-  float: left;
+
+body[section="track"] .header_navmenu_item:nth-child(2) a {
+  color: #706f6f;
+  font-weight: bold;
 }
+
+body[section="inscripcions"] .header_navmenu_item:nth-child(3) a {
+  color: #706f6f;
+  font-weight: bold;
+}
+
+body[section="media"] .header_navmenu_item:nth-child(4) a {
+  color: #706f6f;
+  font-weight: bold;
+}
+
+body[section="resultats"] .header_navmenu_item:nth-child(5) a {
+  color: #706f6f;
+  font-weight: bold;
+}
+
+body[section="documents"] .header_navmenu_item:nth-child(6) a {
+  color: #706f6f;
+  font-weight: bold;
+}
+
 
 /*NAVEGADOR LATERAL*/
 #navlateral{
   z-index: 50;
   width: 33px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   /* height: 100px; */ /* si no s'indica un height el seu contingut li dona /*
   /* min-width: 12px; */ /* si té un contingut definit sabem que sempre tindrà amplada i no fa falta definir-li */
   /* min-height: 48px; */ /* si té un contingut definit sabem que sempre tindrà altura i no fa falta definir-li */
@@ -130,6 +170,7 @@ nav ul li {
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
+    justify-self: center;
     /* height: 100%; */
   }
   
@@ -147,7 +188,7 @@ nav ul li {
     -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
     filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
   }
-
+  
   body[section="inici"] .style_navlateral_item:nth-child(1) .style_navlateral_symbol {
     fill: cyan;
   }
