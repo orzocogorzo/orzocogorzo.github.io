@@ -25,7 +25,6 @@ body{
 }
 
 h1, h2 {
-  font-family: 'Merriweather', serif;
   margin-bottom: 1.5rem;
 }
 
@@ -48,9 +47,6 @@ a {
   cursor: pointer;
 }
 
-nav a:hover circle{
-  fill: cyan;
-}
 
 .container{
   margin-right: auto;
@@ -106,6 +102,10 @@ nav ul li {
   padding-left: 15px;
   padding-right: 15px;
   font-weight: normal;
+}
+
+.scroll-link:hover{
+  color: #706f6f;
 }
 
 
@@ -187,6 +187,10 @@ body[section="documents"] .header_navmenu_item:nth-child(6) a {
     -webkit-box-flex: 0;
     -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
     filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+  }
+
+  nav a:hover circle{
+    fill: cyan;
   }
   
   body[section="inici"] .style_navlateral_item:nth-child(1) .style_navlateral_symbol {
