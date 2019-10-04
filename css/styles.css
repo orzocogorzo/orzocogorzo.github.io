@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 @import url('https://fonts.googleapis.com/css?family=Merriweather:700');
+@font-face {
+  font-family: 'Myriad Pro Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Bold'), url('MYRIADPRO-BOLD.woff') format('woff');
+  }
 
 *{
   margin: 0px;
@@ -14,7 +20,7 @@ html{
 
 body{
   margin-bottom: 175px;
-  font: 400 16px/1.6 'Lato', sans-serif;
+  font: 400 16px/1.6 'Myriad Pro Bold', sans-serif;
 }
 
 h1, h2 {
@@ -42,7 +48,7 @@ a {
 }
 
 nav a:hover circle{
-  fill: #706f6f;
+  fill: cyan;
 }
 
 .container{
@@ -59,6 +65,8 @@ header{
   width: 100%;
   background-color: transparent;
   transition: background-color 0.8s ease-in-out;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 .header__logo{
   height: 75px;
