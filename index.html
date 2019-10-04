@@ -17,12 +17,12 @@
       </div>
       <nav class="floatright">
         <ul>
-          <li><a href="#info" title="info" class="scroll-link" data-id="informacio">Informació</a></li>
-          <li><a href="#track" title="track" class="scroll-link" data-id="circuits">Recorreguts</a></li>
-          <li><a href="#inscripcions" title="inscripcions" class="scroll-link" data-id="reglament">Inscripcions</a></li>
-          <li><a href="#media" title="media" class="scroll-link" data-id="home">Media</a></li>
-          <li><a href="#resultats" title="resultats" class="scroll-link" data-id="home">Resultats</a></li>
-          <li><a href="#documents" title="documents" class="scroll-link" data-id="home">Documents</a></li>
+          <li class="header_navmenu_item"><a href="#info" title="info" class="scroll-link" data-id="informacio">Informació</a></li>
+          <li class="header_navmenu_item"><a href="#track" title="track" class="scroll-link" data-id="circuits">Recorreguts</a></li>
+          <li class="header_navmenu_item"><a href="#inscripcions" title="inscripcions" class="scroll-link" data-id="reglament">Inscripcions</a></li>
+          <li class="header_navmenu_item"><a href="#media" title="media" class="scroll-link" data-id="home">Media</a></li>
+          <li class="header_navmenu_item"><a href="#resultats" title="resultats" class="scroll-link" data-id="home">Resultats</a></li>
+          <li class="header_navmenu_item"><a href="#documents" title="documents" class="scroll-link" data-id="home">Documents</a></li>
         </ul>
       </nav>
   </header>
@@ -127,7 +127,7 @@
     var scrollHandler = new ScrollHandler();
     
     // SECTIONS SCROLL HANDLING
-    var sections = Array.apply(null, document.getElementsByTagName('section'));
+    var sections = Array.apply(null, document.getElementsByClassName('section'));
     function navPanelTagger (ev) {
       function isInViewPort (element) {
         var bounding = element.getBoundingClientRect();
