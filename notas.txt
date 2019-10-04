@@ -1,0 +1,3 @@
+- navegadors intrapagina active...
+-imatge de fons (color logo troll)
+-font myriad pro bold troll
