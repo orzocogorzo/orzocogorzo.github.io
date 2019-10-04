@@ -41,8 +41,8 @@ a {
   cursor: pointer;
 }
 
-nav a:hover{
-  color: #706f6f;
+nav a:hover circle{
+  fill: #706f6f;
 }
 
 .container{
@@ -100,12 +100,18 @@ nav ul li {
 
 /*NAVEGADOR LATERAL*/
 #navlateral{
-  justify-self: end;
-  margin-right: 40px;
-  align-self: center;
-  position: absolute;
-  grid-area: 1 / 1 / 2 /2;
-  pointer-events: auto;
+  z-index: 50;
+  width: 33px;
+  /* height: 100px; */ /* si no s'indica un height el seu contingut li dona /*
+  /* min-width: 12px; */ /* si té un contingut definit sabem que sempre tindrà amplada i no fa falta definir-li */
+  /* min-height: 48px; */ /* si té un contingut definit sabem que sempre tindrà altura i no fa falta definir-li */
+  /* justify-self: end; */ /* no se que fa però l'he desactivat i no canvia res */
+  /* margin-right: 40px; */ /* no se quina funció té */
+  /* align-self: center; */ /* no se que fa però l'he desactivat i no canvia res */
+  /* position: absolute; */
+  position: fixed; /* Igual que el paralax, al position fixed fa la posició relativa no al document sinó a la fienstra, de forma que pots fer scroll i es manté sempre al mateix lloc*/
+  /* grid-area: 1 / 1 / 2 /2; */ /* no se que fa però l'he desactivat i no canvia res */
+  /* pointer-events: auto; */ /* És la propietat per defecte, no fa falta declarar-la */
   }
   
   .style_navlateral{
@@ -116,11 +122,12 @@ nav ul li {
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
   }
   
   .style_navlateral_item{
     position: relative;
+    padding-top: 7px;
   }
   
   .style_navlateral_symbol{
@@ -129,6 +136,36 @@ nav ul li {
     stroke: white;
     stroke-width: 4px;
     -webkit-box-flex: 0;
+    -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+    filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+  }
+
+  body[section="inici"] .style_navlateral_item:nth-child(1) .style_navlateral_symbol {
+    fill: cyan;
+  }
+
+  body[section="info"] .style_navlateral_item:nth-child(2) .style_navlateral_symbol {
+    fill: cyan;
+  }
+
+  body[section="track"] .style_navlateral_item:nth-child(3) .style_navlateral_symbol {
+    fill: cyan;
+  }
+
+  body[section="inscripcions"] .style_navlateral_item:nth-child(4) .style_navlateral_symbol {
+    fill: cyan;
+  }
+
+  body[section="media"] .style_navlateral_item:nth-child(5) .style_navlateral_symbol {
+    fill: cyan;
+  }
+
+  body[section="resultats"] .style_navlateral_item:nth-child(6) .style_navlateral_symbol {
+    fill: cyan;
+  }
+
+  body[section="documents"] .style_navlateral_item:nth-child(7) .style_navlateral_symbol {
+    fill: cyan;
   }
 
 
@@ -161,7 +198,9 @@ nav ul li {
   height: 500px;
 }
 #track{
-  background-image: url("..//img/bg-1.jpg")
+  background-image: url("..//img/bg-1.jpg");
+  height: 500px;
+  
 }
 #inscripcions{
   background-color: wood;

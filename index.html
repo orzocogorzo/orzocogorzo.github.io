@@ -29,7 +29,9 @@
   </header>
 
   <!-- Navegador lateral -->
-  <nav style="z-index: 50; width: 33px; height: 100px; min-width: 12px; min-height: 48px;" class="navegador" id="navlateral">
+  <!-- mai estils en linea a l'html, barreges coses i es molt poc escalable -->
+  <!-- style="z-index: 50; width: 33px; height: 100px; min-width: 12px; min-height: 48px;" -->
+  <nav class="navegador" id="navlateral">
     <ul class="style_navlateral">
       <li class="style_navlateral_item">
         <a class="style_navlateral_link" href="#inici">
@@ -91,26 +93,27 @@
       <h1>EQUINOX TRAIL 2019</h1>
     </section>
     <section class="section" id="info">
-        Informació <br>
+        INFO<br>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </section>
     <section class="section" id="track">
-      Recorregut <br>
+      TRACK<br>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </section>
     <section class="section" id="inscripcions">
-      Inscripcions <br>
+      INSCRIPTIONS<br>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </section>
     <section class="section" id="media">
-      Media <br>
+      MEDIA<br>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </section>
     <section class="section" id="resultats">
-      Resultats <br>
+      RESULTS<br>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </section>
     <section class="section" id="documents">
-      Documents <br>
+      DOCUMENTS<br>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </section>
   </div>
@@ -131,8 +134,8 @@
         var bounding = element.getBoundingClientRect();
         return bounding.top >= 0 &&
           bounding.left >= 0 &&
-          bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
-          bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+          bounding.right <= (window.innerWidth || document.documentElement.clientWidth) /* &&
+          bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)*/;
       }
 
       var currentSection = sections.filter(function (section) {
@@ -142,7 +145,7 @@
       if (currentSection) {
         document.body.setAttribute('section', currentSection.id);
       } else {
-        document.body.setAttribute('section', 'section1');
+        document.body.setAttribute('section', 'info');
       }
 
     };
