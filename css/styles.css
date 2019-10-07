@@ -61,7 +61,7 @@ header{
   position: fixed;
   width: 100%;
   background-color: transparent;
-  transition: background-color 0.8s ease-in-out;
+  transition: background-color 0.5s ease-in-out;
   padding-top: 15px;
   padding-bottom: 15px;
   padding-right: 15px;
@@ -246,7 +246,7 @@ body[section="documents"] .header_navmenu_item:nth-child(6) a {
 }
 #info{
   background-color: aqua;
-  height: 500px;
+  height: 1500px;
 }
 #track{
   background-image: url("..//img/bg-1.jpg");

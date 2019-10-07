@@ -123,72 +123,8 @@
 
   <!-- scripts -->
   <script src="js/scrollHandler.js" type="text/javascript"></script>
-  <script>
-    var scrollHandler = new ScrollHandler();
-    
-    // SECTIONS SCROLL HANDLING
-    var sections = Array.apply(null, document.getElementsByClassName('section'));
-    function navPanelTagger (ev) {
-      var offsets = sections.map(function (section) {
-        // debugger;
-        var bounding = section.getBoundingClientRect();
-        console.log(section.id, Math.max(bounding.height + bounding.bottom, Math.min(bounding.height, bounding.top + bounding.height)));// ((bounding.height + (window.innerHeight - bounding.bottom))/window.innerHeight));
-        return {
-          section: section,
-          offset: Math.abs(bounding.top)/bounding.height
-        }
-      });
-
-      function isInViewPort (element) {
-        var bounding = element.getBoundingClientRect();
-        return bounding.top >= 0 &&
-          bounding.left >= 0 &&
-          bounding.right <= (window.innerWidth || document.documentElement.clientWidth) /* &&
-          bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)*/;
-      }
-
-      // var currentSection = sections.filter(function (section) {
-      //   return isInViewPort(section);
-      // }).shift();
-
-      // debugger;
-
-      currentSection = offsets.sort(function (d1, d2) {
-        return d1.offset - d2.offset; 
-      }).shift().section;
-
-      if (currentSection) {
-        document.body.setAttribute('section', currentSection.id);
-      } else {
-        document.body.setAttribute('section', 'info');
-      }
-    };
-    scrollHandler.onScroll(navPanelTagger);
-    navPanelTagger();
-
-    Array.apply(null, document.querySelectorAll('a[href*="#"]'))
-      .filter(function (el) {
-        return el.getAttribute('href') !== "#" && el.getAttribute('href') !== "#0";
-      }).map(function (el) {
-        el.addEventListener('click', function () {
-          el.scrollIntoView({
-            behavior: 'smooth'
-          });
-        });
-      });
-
-    // HEADER SCROLL HANDLING
-    var header = document.getElementById('header');
-    function headerScrollController (ev) {
-      
-      if (window.scrollY > 100) {
-        header.classList.add('opaque');
-      } else {
-        header.classList.remove('opaque')
-      }
-    }
-
-    header.onScroll(headerScrollController);
-  </script>
+  <script src="js/urlHandler.js" type="text/javascript"></script>
+  <script src="js/helpers.js" type="text/javascript"></script>
+  <script src="js/index.js" type="text/javascript"></script>
 </body>
 
