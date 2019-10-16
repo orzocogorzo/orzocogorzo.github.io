@@ -272,5 +272,39 @@ body[section="documents"] .header_navmenu_item:nth-child(6) a {
 
 
 
+.curses{
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  flex-direction: row;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+}
+
+.btn_info_track{
+  background-color: firebrick;  
+  cursor: pointer;
+  margin: 0px 10px;
+  padding: 5px 8px;
+  border radius: 5px;
+  transition: color 0.5s ease-out 0s;
+  color: white;
+}
+
+
+/*ESTILS PÀGINES INFO CURSES*/
+
+#info-track{
+  background-image: url("..//img/DSCF1793.jpg");
+  height: 1500px;
+  text-align: left;
+}
+
+
+
+
+
+
+
 
   
