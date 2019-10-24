@@ -1,7 +1,6 @@
 html {
   box-sizing: border-box;
   height: 100%;
-m-breakpoint(sm md)
 }
 *,
 *:before,
@@ -9,13 +8,10 @@ m-breakpoint(sm md)
   box-sizing: inherit;
 }
 body {
-  color: $base-font-color;
-  font-family: $base-font-family;
   height: 100%;
   margin: 0;
   min-height: 600px;
   padding: 0;
-m-breakpoint(landscape)
 }
 ul,
 li {
@@ -36,14 +32,13 @@ p {
   margin: 0;
 }
 a {
-  color: $primary-theme-color;
+  text-decoration: none;
 }
 #app {
   display: flex;
   flex-direction: column;
 }
 #loader {
-  background-color: $primary-theme-color;
   background-position: center;
   background-repeat: no-repeat;
   background-size: 200px;
@@ -214,7 +209,7 @@ button,
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: "Times New Roman", sans-serif;
+  /* font-family: "Times New Roman", sans-serif; */
   font-weight: 700;
   padding: 0.8em 3em 1em;
   text-align: center;
@@ -269,7 +264,7 @@ a.btn:hover {
   text-decoration: none;
 }
 .btn--primary {
-  background-color: #5fe0b7;
+  background-color: var(--font-color);
 }
 .btn--primary:hover {
   background-color: #52ddb1;
@@ -279,8 +274,8 @@ a.btn:hover {
 }
 .btn--primary.btn--ghost {
   background-color: transparent;
-  border: 1px solid #5fe0b7;
-  color: #5fe0b7;
+  border: 1px solid var(--font-color);
+  color: var(--font-color);
 }
 .btn--primary.btn--ghost:hover {
   border-color: #52ddb1;
@@ -292,15 +287,15 @@ a.btn:hover {
 }
 .btn--secondary {
   background-color: #fff;
-  color: #5fe0b7;
+  color: var(--font-color);
 }
 .btn--secondary:hover {
   background-color: #f2f2f2;
-  color: #5fe0b7;
+  color: var(--font-color);
 }
 .btn--secondary:active {
   background-color: #e6e6e6;
-  color: #5fe0b7;
+  color: var(--font-color);
 }
 .btn--secondary.btn--ghost {
   background-color: transparent;
@@ -396,13 +391,12 @@ a.btn:hover {
   justify-content: center;
   margin: 5px;
   width: 40px;
-m-breakpoint(sm xmd)
 }
 .schedule__wrapper .schedule__body .schedule__days-grid .schedule__week-row .schedule__day-cell:hover {
-  color: #5fe0b7;
+  color: var(--font-color);
 }
 .schedule__wrapper .schedule__body .schedule__days-grid .schedule__week-row .schedule__day-cell.limit-date {
-  border-color: #5fe0b7;
+  border-color: var(--font-color);
   border-width: 1px;
   border-style: dashed;
   background-color: none;
@@ -410,7 +404,7 @@ m-breakpoint(sm xmd)
   border-radius: 50%;
 }
 .schedule__wrapper .schedule__body .schedule__days-grid .schedule__week-row .schedule__day-cell.selected {
-  background-color: #5fe0b7;
+  background-color: var(--font-color);
   border-radius: 50%;
   color: #fff;
 }

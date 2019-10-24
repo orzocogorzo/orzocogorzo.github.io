@@ -27,6 +27,7 @@ function headerScrollController (ev) {
 }
 
 header.onScroll(headerScrollController);
+headerScrollController();
 
 // SECTIONS SCROLL HANDLING
 var sections = Array.apply(null, document.getElementsByClassName('section'));
@@ -65,3 +66,19 @@ var navPanelTagger = (function () {
 
 scrollHandler.onScroll(navPanelTagger);
 navPanelTagger();
+
+function navToInscription () {
+    event.stopPropagation();
+    event.preventDefault();
+    window.open(event.srcElement.getAttribute('data-url'));
+}
+
+function youtubeResizer () {
+    console.log('resize');
+    var iframe = document.getElementById('youtubeframe');
+    iframe.setAttribute('width', window.innerWidth/1.5);
+    iframe.setAttribute('height', iframe.getAttribute('width')/1.9);
+}
+
+window.onresize = youtubeResizer;
+youtubeResizer();

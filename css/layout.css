@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:700');
+
+@font-face {
+  font-family: 'Myriad Pro Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Bold'), url('MYRIADPRO-BOLD.woff') format('woff');
+}
+
+:root {
+  --sun-color: #ffba00;
+  --moon-color: #2d4c77;
+  --font-color: #222222;
+  --primary-color: white;
+  --secondary-color: #2a2c31;
+  --header-height: 100px;
+}
+
+body {
+  font: 400 16px/1.6 'Myriad Pro Bold', sans-serif;
+}
+
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+}
+
+/*HEADERFOOTER*/
+
+header {
+  height: var(--header-height);
+  position: fixed;
+  width: 100%;
+  background-color: transparent;
+  transition: background-color 0.5s ease-in-out;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  z-index: 10;
+}
+
+.header__logo {
+  margin-left: 20px;
+  height: 70px;
+}
+
+.opaque {
+  background-color: white;
+  box-shadow: 2px 0px 10px #00000055;
+}
+
+footer {
+  height: 600px;
+  position: relative;
+  width: 100%;
+  background-color: #222222;
+  padding: 5% 15%;
+}
+
+footer p, footer h2 {
+  text-align: center;
+  color: var(--primary-color);
+}
+
+footer h2 {
+  letter-spacing: 0.8em;
+}
+
+footer h2 span {
+  color: var(--sun-color);
+}
+
+footer h2 span:last-child {
+  color: var(--moon-color);
+}
+
+.floatright {
+  float: right;
+}
+
+.floatleft {
+  float: left;
+}
+
+/*MENU NAV*/
+nav ul {
+  list-style: none;
+  background-color: transparent;
+}
+
+nav ul li {
+  display: inline-block;
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: normal;
+}
+
+.header_navmenu {
+  margin-right: 20px;
+}
+
+header:not(.opaque) .header_navmenu_item a {
+  text-shadow: 2px 2px 4px #00000055;
+}
+
+.header_navmenu_item a {
+  color: var(--moon-color);
+}
+
+.scroll-link:hover {
+  font-weight: bold;
+}
+
+
+body[section="info"] .header_navmenu_item:nth-child(1) a {
+  color: var(--sun-color);
+  font-weight: bold;
+}
+
+body[section="track"] .header_navmenu_item:nth-child(2) a {
+  color: var(--sun-color);
+  font-weight: bold;
+}
+
+/* body[section="inscripcions"] .header_navmenu_item:nth-child(3) a {
+  color: var(--sun-color);
+  font-weight: bold;
+} */
+
+body[section="media"] .header_navmenu_item:nth-child(3) a {
+  color: var(--sun-color);
+  font-weight: bold;
+}
+
+body[section="resultats"] .header_navmenu_item:nth-child(4) a {
+  color: var(--sun-color);
+  font-weight: bold;
+}
+
+body[section="documents"] .header_navmenu_item:nth-child(5) a {
+  color: var(--sun-color);
+  font-weight: bold;
+}
+
+
+/*ESTILS PÀGINES INFO CURSES*/
+
+#info-track {
+  background-image: url("..//img/DSCF1793.jpg");
+  height: 1500px;
+  text-align: left;
+}
