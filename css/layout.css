@@ -41,7 +41,7 @@ header {
   position: fixed;
   width: 100%;
   background-color: transparent;
-  transition: background-color 0.5s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
   padding-top: 15px;
   padding-bottom: 15px;
   padding-right: 15px;
@@ -176,13 +176,4 @@ body[section="resultats"] .header__navmenu-item:nth-child(4) a {
 body[section="documents"] .header__navmenu-item:nth-child(5) a {
   color: var(--sun-color);
   font-weight: bold;
-}
-
-
-/*ESTILS PÀGINES INFO CURSES*/
-
-#info-track {
-  background-image: url("..//img/DSCF1793.jpg");
-  height: 1500px;
-  text-align: left;
 }

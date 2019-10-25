@@ -5,30 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Sun | Equinox Trail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="css/reet.css" />
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/layout.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/navlateral.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/sections.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/races.css" />
+
     <link rel="shortcut icon" href="img/fav-icon.svg" type="image/svg">
     
 </head>
 <body>
-  <header id="header">
+  <header id="header" class="sun">
     <div class="container">
-      <a href="index.html" title="Ir a la página de inicio"><img src="img/equinox-logo.png" alt="Logo Equinox" class="header__logo floatleft"></a>
+      <a href="index.html#inici" title="Ir a la página de inicio"><img src="img/equinox-logo.png" alt="Logo Equinox" class="header__logo floatleft"></a>
       </div>
-      <nav class="floatright">
-        <ul>
-          <li class="header_navmenu_item"><a href="index.html#info" title="info" class="scroll-link" data-id="informacio">Informació</a></li>
-          <li class="header_navmenu_item"><a href="index.html#track" title="track" class="scroll-link" data-id="circuits">Recorreguts</a></li>
-          <li class="header_navmenu_item"><a href="index.html#inscripcions" title="inscripcions" class="scroll-link" data-id="reglament">Inscripcions</a></li>
-          <li class="header_navmenu_item"><a href="index.html#media" title="media" class="scroll-link" data-id="home">Media</a></li>
-          <li class="header_navmenu_item"><a href="index.html#resultats" title="resultats" class="scroll-link" data-id="home">Resultats</a></li>
-          <li class="header_navmenu_item"><a href="index.html#documents" title="documents" class="scroll-link" data-id="home">Documents</a></li>
+      <nav class="navmenu-burger floatright">
+        <ul id=navBurger" class="header__navmenu-burger">
+          <li class="header__navmenu-burger-item"><a href="index.html#info" title="info" class="scroll-link" data-id="informacio">Informació</a></li>
+          <li class="header__navmenu-burger-item"><a href="index.html#track" title="track" class="scroll-link" data-id="circuits">Recorreguts</a></li>
+          <!-- <li class="header__navmenu-burger-item"><a href="index.html#inscripcions" title="inscripcions" class="scroll-link" data-id="reglament">Inscripcions</a></li> -->
+          <li class="header__navmenu-burger-item"><a href="index.html#media" title="media" class="scroll-link" data-id="home">Media</a></li>
+          <li class="header__navmenu-burger-item"><a href="index.html#resultats" title="resultats" class="scroll-link" data-id="home">Resultats</a></li>
+          <li class="header__navmenu-burger-item"><a href="index.html#documents" title="documents" class="scroll-link" data-id="home">Documents</a></li>
         </ul>
       </nav>
-  </header>
+      <nav class="navmenu floatright">
+        <ul class="header__navmenu">
+          <li class="header__navmenu-item"><a href="index.html#info" title="info" class="scroll-link" data-id="informacio">Informació</a></li>
+          <li class="header__navmenu-item"><a href="index.html#track" title="track" class="scroll-link" data-id="circuits">Recorreguts</a></li>
+          <!-- <li class="header__navmenu-item"><a href="index.html#inscripcions" title="inscripcions" class="scroll-link" data-id="reglament">Inscripcions</a></li> -->
+          <li class="header__navmenu-item"><a href="index.html#media" title="media" class="scroll-link" data-id="home">Media</a></li>
+          <li class="header__navmenu-item"><a href="index.html#resultats" title="resultats" class="scroll-link" data-id="home">Resultats</a></li>
+          <li class="header__navmenu-item"><a href="index.html#documents" title="documents" class="scroll-link" data-id="home">Documents</a></li>
+        </ul>
+      </nav>
+    </header>
   <div id="home" class="content">
-    <section class="parallax section" id="info-track">
-      <h2>EQUINOX MOON</h2>
+    <section class="parallax section sun" id="info-track">
+      <h2>EQUINOX SUN</h2>
       <P>A tu, que t’agrada córrer de nit entre senglars i mussols i a tu, que mai has
         corregut sota la llum de la lluna, aquesta és la teva cursa.
         
@@ -68,6 +83,11 @@
           Recorregut senyalitzat amb cinta reflectant d’obra, flextes indicatives, i senyals de perill o precaució     
       </p>
     </section>
-    <section class="section"></section>
+    <!-- <section class="section"></section>
+      <!-- scripts -->
+  <script src="js/scrollHandler.js" type="text/javascript"></script>
+  <script src="js/urlHandler.js" type="text/javascript"></script>
+  <script src="js/helpers.js" type="text/javascript"></script>
+  <script src="js/index.js" type="text/javascript"></script>
   </div>
 </body>

@@ -1,0 +1,35 @@
+/*ESTILS PÀGINES INFO CURSES*/
+
+#info-track {
+    padding-top: 30%;
+    height: 1500px;
+    text-align: left;
+}
+  
+#info-track.moon {
+    background-size: cover;
+    background-image: url(../img/moon-bg.png);
+    color: var(--primary-color);
+}
+  
+#info-track.sun {
+    background-size: cover;
+    background-image: url(../img/sun-bg.png);
+    color: var(--font-color);
+}
+  
+header.opaque.moon {
+    background-color: var(--moon-color);
+}
+
+header.opaque.sun {
+    background-color: var(--sun-color);
+}
+
+header.sun .header__navmenu-item a {
+    color: var(--font-color);
+}
+
+header.moon .header__navmenu-item a {
+    color: var(--primary-color);
+}
