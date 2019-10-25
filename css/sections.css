@@ -28,16 +28,25 @@
     background-image: url("../img/jumbotron-1.jpg");
     height: 750px;
     box-shadow: 0px 0px 30px inset #00000088;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #inici h1 {
     text-align: center;
-    line-height: 750px;
+    line-height: 1.5em;
     color: whitesmoke;
     text-shadow: 2px 2px 4px #00000055;
     font-size: 3em;
     letter-spacing: .7em;
     font-weight: bolder;
+}
+
+@media (orientation: portrait) {
+    #inici h1 {
+        font-size: 2.5em;
+    }
 }
 
 #inici h1 span {
@@ -53,6 +62,11 @@
     color: var(--moon-color);
 }
 
+#info h3 {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
 #track {
     background-color: var(--secondary-color);
 }
@@ -65,96 +79,6 @@
     color: var(--primary-color);
 }
 
-.track__curses {
-    display: flex;
-    align-self: center;
-    justify-content: center;
-    flex-direction: row;
-    -webkit-box-direction: normal;
-    -webkit-box-orient: horizontal;
-}
-
-.track__button-wrapper {
-    flex: 1;
-    height: 520px;
-    margin: 30px 3% 0px;
-}
-
-.track__info-btn {
-    height: 100%;
-    width: 100%;
-    margin: 0px 10px;
-    padding: 20px 8px 40px;
-    border: 1px solid;
-    border-color: var(--secondary-color);
-    border-radius: 5px;
-    transition: border-color 0.3s ease-out;
-    color: white;
-    display: block;
-}
-
-.track__info-btn:hover {
-    border-color: var(--sun-color);
-    box-shadow: 0px 0px 10px #ffffff22;
-}
-
-.track__info-btn:hover .track__box {
-    opacity: 1;
-}
-
-.track__info-btn:hover .track__box-body {
-    background-size: 50%;
-}
-
-.track__box-title {
-    text-align: center;
-    text-transform: uppercase;
-    height: 40px;
-}
-
-.track__box {
-    height: 100%;
-    width: 100%;
-    opacity: .6;
-    transition: opacity 0.3s ease-in-out
-}
-
-.track__box-body {
-    height: calc(100% - 80px);
-    width: 100%;
-    text-align: center;
-    background-size: 45%;
-    background-repeat: no-repeat;
-    background-position-x: 50%;
-    background-position-y: 75%;
-    transition: background-size 0.3s ease-in-out;
-}
-
-.track__box-body p {
-    font-size: 0.7em;
-    margin: 0;
-}
-
-.track__box-body p:first-child span {
-    margin-left: 5px;
-}
-
-.moon .track__box-body {
-    background-image: url(../img/equinox-logo__moon.png);
-}
-
-.sun .track__box-body {
-    background-image: url(../img/equinox-logo__sun.png);
-}
-.league .track__box-body {
-    background-image: url(../img/equinox-logo__league.png);
-}
-
-.track__box-footer {
-    display: flex;
-    justify-content: center;
-}
-
 /* #inscripcions {
     background-image: url("..//img/jumbotron-2.jpg");
     color: var(--primary-color);
@@ -163,7 +87,7 @@
 
 #media {
     color: var(--primary-color);
-    background-image: url("..//img/jumbotron-2.jpg");
+    background-image: url(../img/jumbotron-2.jpg);
 }
 
 #media .media__iframe-wrapper {
@@ -190,7 +114,208 @@
     color: var(--font-color);
 }
 
+#resultats .results__bottom {
+    padding-top: 20px;
+}
+
+#resultats .results__bottom-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#resultats .results__bottom-wrapper p {
+    margin: 0;
+    font-size: 0.9em;
+    opacity: .9;
+}
+
+#resultats .results__bottom-image {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(../img/km0__logo--long--black.svg);
+    width: 100%;
+    height: 50px;
+}
+
 #documents {
-    /* background-image: url(../img/jumbotron-3.jpg); */
-    /* height: 600px; */
+    padding-bottom: 10%;
+}
+
+#documents li {
+    text-align: center;
+}
+
+#documents a {
+    line-height: 25px;
+    color: var(--font-color);
+    position: relative;
+}
+
+#documents a:before {
+    content: "·";
+    position: absolute;
+    top: 0px;
+    left: -25px;
+    width: 25px;
+    height: 25px;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'Myriad Pro Bold', sans-serif;
+}
+
+#documents a:hover {
+    text-decoration: underline;
+}
+
+.results__curses,
+.track__curses {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    flex-direction: row;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: horizontal;
+}
+
+.results__button-wrapper,
+.track__button-wrapper {
+    flex: 1;
+    margin: 30px 3% 0px;
+}
+
+.results__button-wrapper {
+    height: 300px;
+}
+
+@media (orientation: portrait) {
+    .results__button-wrapper {
+        height: 200px;
+    }
+}
+
+.track__button-wrapper {
+    height: 520px;
+}
+
+@media (orientation: portrait) {
+    .track__button-wrapper {
+        height: 350px;
+    }
+}
+
+.results__info-btn,
+.track__info-btn {
+    height: 100%;
+    width: 100%;
+    margin: 0px 10px;
+    padding: 20px 8px 40px;
+    border: 1px solid;
+    border-color: var(--secondary-color);
+    border-radius: 5px;
+    transition: border-color 0.3s ease-out, background-color 0.3s ease-in-out;
+    color: white;
+    display: block;
+}
+
+.results__info-btn {
+    border-color: #ffffff00;
+    color: var(--font-color);
+}
+
+.is-phone .track__info-btn,
+.track__info-btn:hover {
+    border-color: var(--sun-color);
+    box-shadow: 0px 0px 10px #ffffff22;
+}
+
+.is-phone .results__info-btn,
+.results__info-btn:hover {
+    /* border-color: var(--font-color); */
+    box-shadow: 0px 0px 10px #00000022;
+    background-color: #ffffff88;
+}
+
+.is-phone .results__info-btn .results__box,
+.results__info-btn:hover .results__box,
+.is-phone .track__info-btn .track__box,
+.track__info-btn:hover .track__box {
+    opacity: 1;
+}
+
+
+.is-phone .results__info-btn .results__box-body,
+.results__info-btn:hover .results__box-body,
+.is-phone .track__info-btn .track__box-body,
+.track__info-btn:hover .track__box-body {
+    background-size: 50%;
+}
+
+.results__box-title,
+.track__box-title {
+    text-align: center;
+    text-transform: uppercase;
+    height: 40px;
+}
+
+.results__box,
+.track__box {
+    height: 100%;
+    width: 100%;
+    opacity: .6;
+    transition: opacity 0.3s ease-in-out
+}
+
+.results__box-body,
+.track__box-body {
+    height: calc(100% - 80px);
+    width: 100%;
+    text-align: center;
+    background-size: 45%;
+    background-repeat: no-repeat;
+    background-position-x: 50%;
+    background-position-y: 75%;
+    transition: background-size 0.3s ease-in-out;
+}
+.results__box-body {
+    height: calc(100% - 40px);
+}
+
+.track__box-body p {
+    font-size: 0.7em;
+    margin: 0;
+}
+
+.track__box-body p:first-child span {
+    margin-left: 5px;
+}
+
+.moon .results__box-body,
+.moon .track__box-body {
+    background-image: url(../img/equinox-logo__moon.png);
+}
+
+.sun .results__box-body,
+.sun .track__box-body {
+    background-image: url(../img/equinox-logo__sun.png);
+}
+
+.league .results__box-body,
+.league .track__box-body {
+    background-image: url(../img/equinox-logo__league.png);
+}
+
+.track__box-footer {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 750px) {
+    .track__box .btn,
+    .results__box .btn {
+        font-size: 0.7em;
+        padding: 0.4em 1em 0.5em;
+    }
 }

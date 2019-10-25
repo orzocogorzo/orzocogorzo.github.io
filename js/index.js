@@ -2,9 +2,17 @@ var headerHeight = 100;
 var scrollHandler = new ScrollHandler();
 var urlHandler = new UrlHandler();
 
+// document.getElementById('navBurger').addEventListener('click', function (ev) {
+//     if (ev.srcElement.classList.contains('open')) {
+//         ev.srcElement.classList.remove('open');
+//     } else {
+//         ev.srcElement.classList.add('open');
+//     }
+// });
+
 Array.apply(null, document.querySelectorAll('a[href*="#"]'))
-  .filter(function (el) {
-    return el.getAttribute('href') !== "#" && el.getAttribute('href') !== "#0";
+  .filter(function (el) {  
+    return el.getAttribute('href') !== "#" && el.getAttribute('href') !== "#0" && el.getAttribute('href')[0] === '#';
   }).map(function (el) {
     el.addEventListener('click', function (ev) {
         killEvent(ev);
@@ -74,7 +82,6 @@ function navToInscription () {
 }
 
 function youtubeResizer () {
-    console.log('resize');
     var iframe = document.getElementById('youtubeframe');
     iframe.setAttribute('width', window.innerWidth/1.5);
     iframe.setAttribute('height', iframe.getAttribute('width')/1.9);
@@ -82,3 +89,13 @@ function youtubeResizer () {
 
 window.onresize = youtubeResizer;
 youtubeResizer();
+
+function openDocument () {
+    event.stopPropagation();
+    event.preventDefault();
+    window.open(event.srcElement.getAttribute('data-url'));
+}
+
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    document.body.classList.add('is-phone');
+}
