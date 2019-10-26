@@ -33,3 +33,7 @@ header.sun .header__navmenu-item a {
 header.moon .header__navmenu-item a {
     color: var(--primary-color);
 }
+
+#info-track img {
+    padding: 5% 15%;
+}
