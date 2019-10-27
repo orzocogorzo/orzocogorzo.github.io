@@ -413,23 +413,11 @@
     .track__info-btn {
         padding-bottom: 20px;
     }
-
-    .track__box .btn,
-    .results__box .btn {
-        font-size: 0.6em;
-        padding: 0.5em 1.5em 0.6em;
-    }
 }
 
 @media (max-width: 600px) {
     .results__info-btn,
     .track__info-btn {
         padding-bottom: 10px;
-    }
-
-    .track__box .btn,
-    .results__box .btn {
-        font-size: 0.45em;
-        padding: 0.4em 1em 0.5em;
     }
 }
