@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
             urlHandler.navigate(section.id, {
                 silence: true
             });
-            scrollHandler.scrollBy(section.getBoundingClientRect().top-headerHeight, 0)
+            scrollHandler.scrollBy(section.getBoundingClientRect().top-(window.innerWidth > 600 ? 100 : 70), 0)
         });
       });
     
@@ -69,11 +69,14 @@ document.addEventListener('DOMContentLoaded', function () {
     scrollHandler.onScroll(navPanelTagger);
     navPanelTagger();
     
-    function navToInscription () {
-        event.stopPropagation();
-        event.preventDefault();
-        window.open(event.srcElement.getAttribute('data-url'));
-    }
+    Array.apply(null, document.getElementsByClassName('track__info-btn')).map(function (box) {
+        box.addEventListener('click', function (ev) {
+            if (ev.srcElement.classList.contains('btn')) {
+                ev.preventDefault();
+                window.open(ev.srcElement.getAttribute('data-url'));
+            };
+        });
+    });
     
     function youtubeResizer () {
         var iframe = document.getElementById('youtubeframe');
