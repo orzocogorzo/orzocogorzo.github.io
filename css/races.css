@@ -1,39 +1,77 @@
 /*ESTILS PÀGINES INFO CURSES*/
 
+.moon header.opaque {
+    background-color: var(--moon-color);
+}
+
+.sun header.opaque {
+    background-color: var(--sun-color);
+}
+
+.sun header .header__navmenu-item a,
+.moon header .header__navmenu-item a {
+    color: var(--primary-color);
+}
+
 #info-track {
-    padding-top: 30%;
-    height: 1500px;
+    padding-top: 15%;
     text-align: left;
 }
-  
-#info-track.moon {
+
+@media (orientation: portrait) {
+    #info-track {
+        padding-top: 20%;
+    }   
+}
+
+@media (max-width: 750px) {
+    #info-track {
+        padding-top: 30%;
+    }   
+}
+
+.moon #info-track {
     background-size: cover;
     background-image: url(../img/moon-bg.png);
     color: var(--primary-color);
 }
-  
-#info-track.sun {
+
+.sun #info-track {
     background-size: cover;
     background-image: url(../img/sun-bg.png);
-    color: var(--font-color);
-}
-  
-header.opaque.moon {
-    background-color: var(--moon-color);
-}
-
-header.opaque.sun {
-    background-color: var(--sun-color);
-}
-
-header.sun .header__navmenu-item a {
-    color: var(--font-color);
-}
-
-header.moon .header__navmenu-item a {
     color: var(--primary-color);
 }
 
+#info-track h1 {
+    font-size: 2rem;
+    border-bottom: .5px solid;
+}
+
 #info-track img {
-    padding: 5% 15%;
+    padding: 10% 1% 5%;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
+#info-track ol {
+    padding: 0px;
+}
+
+#info-track ol li {
+    font-size: 0.9rem;
+    color: #ffffffcc;
+}
+
+#info-track ol li span {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.race-details {
+    border-bottom: .5px solid;
+}
+
+.sun .opaque .navmenu-burger__icon,
+.moon .opaque .navmenu-burger__icon {
+    background-image: url(../img/burger-icon.svg);
 }

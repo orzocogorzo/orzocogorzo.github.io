@@ -59,12 +59,22 @@ header {
   box-shadow: 2px 0px 10px #00000055;
 }
 
+@media screen and (max-width: 600px) {
+  header {
+    height: 70px;
+  }
+
+  .header__logo {
+    height: 40px;
+  }
+}
+
 footer {
   height: 600px;
   position: relative;
   width: 100%;
   background-color: #222222;
-  padding: 5% 15%;
+  padding: 5vh 15vw;
 }
 
 footer p, footer h2 {
@@ -104,76 +114,4 @@ nav ul li {
   padding-left: 15px;
   padding-right: 15px;
   font-weight: normal;
-}
-
-.header__navmenu {
-  display: initial;
-  margin-right: 20px;
-}
-
-.header__navmenu-burger {
-  display: none;
-}
-
-@media (orientation: portrait) {
-  .header__navmenu {
-    display: none;
-  }
-  
-  .header__navmenu-burger {
-    display: initial;
-  } 
-}
-
-@media (max-width: 950px) {
-  .header__navmenu {
-    display: none;
-  }
-  
-  .header__navmenu-burger {
-    display: initial;
-  }
-}
-
-header:not(.opaque) .header__navmenu-item a {
-  text-shadow: 2px 2px 4px #00000055;
-}
-
-.header__navmenu-item a {
-  color: var(--moon-color);
-}
-
-.scroll-link:hover {
-  font-weight: bold;
-}
-
-
-body[section="info"] .header__navmenu-item:nth-child(1) a {
-  color: var(--sun-color);
-  font-weight: bold;
-}
-
-body[section="track"] .header__navmenu-item:nth-child(2) a {
-  color: var(--sun-color);
-  font-weight: bold;
-}
-
-/* body[section="inscripcions"] .header__navmenu-item:nth-child(3) a {
-  color: var(--sun-color);
-  font-weight: bold;
-} */
-
-body[section="media"] .header__navmenu-item:nth-child(3) a {
-  color: var(--sun-color);
-  font-weight: bold;
-}
-
-body[section="resultats"] .header__navmenu-item:nth-child(4) a {
-  color: var(--sun-color);
-  font-weight: bold;
-}
-
-body[section="documents"] .header__navmenu-item:nth-child(5) a {
-  color: var(--sun-color);
-  font-weight: bold;
 }
