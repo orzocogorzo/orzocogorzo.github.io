@@ -267,10 +267,10 @@ a.btn:hover {
   background-color: var(--font-color);
 }
 .btn--primary:hover {
-  background-color: #52ddb1;
+  background-color: var(--sun-color);
 }
 .btn--primary:active {
-  background-color: #44dbab;
+  background-color: var(--sun-color);
 }
 .btn--primary.btn--ghost {
   background-color: transparent;
@@ -278,12 +278,12 @@ a.btn:hover {
   color: var(--font-color);
 }
 .btn--primary.btn--ghost:hover {
-  border-color: #52ddb1;
-  color: #52ddb1;
+  border-color: var(--sun-color);
+  color: var(--sun-color);
 }
 .btn--primary.btn--ghost:active {
-  border-color: #44dbab;
-  color: #44dbab;
+  border-color: var(--sun-color);
+  color: var(--sun-color);
 }
 .btn--secondary {
   background-color: #fff;

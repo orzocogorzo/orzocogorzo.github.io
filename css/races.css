@@ -2,10 +2,12 @@
 
 .moon header.opaque {
     background-color: var(--moon-color);
+    border-bottom: 0px;
 }
 
 .sun header.opaque {
     background-color: var(--sun-color);
+    border-bottom: 0px;
 }
 
 .sun header .header__navmenu-item a,
@@ -13,49 +15,89 @@
     color: var(--primary-color);
 }
 
+.sun .opaque .header__navmenu-item a,
+.moon .opaque .header__navmenu-item a {
+    font-weight: bold;
+}
+
+.sun .header__navmenu-item:hover > a, 
+.moon .header__navmenu-item:hover > a {
+    color: var(--primary-color);
+}
+
 #info-track {
-    padding-top: 15%;
+    padding-top: 10vh;
     text-align: left;
 }
 
 @media (orientation: portrait) {
     #info-track {
-        padding-top: 20%;
+        padding-top: 12.5vh;
     }   
 }
 
 @media (max-width: 750px) {
     #info-track {
-        padding-top: 30%;
+        padding-top: 15vh;
     }   
 }
 
 .moon #info-track {
     background-size: cover;
-    background-image: url(../img/moon-bg.png);
+    background-image: url(../img/moon-bg--lazy.png);
     color: var(--primary-color);
+}
+
+.loaded.moon #info-track {
+    background-image: url(../img/moon-bg.png);
 }
 
 .sun #info-track {
     background-size: cover;
-    background-image: url(../img/sun-bg.png);
+    background-image: url(../img/sun-bg--lazy.png);
     color: var(--primary-color);
+}
+
+.loaded.sun #info-track {
+    background-image: url(../img/sun-bg.png);
 }
 
 #info-track h1 {
     font-size: 2rem;
-    border-bottom: .5px solid;
+    /* border-bottom: .5px solid; */
+}
+
+@media screen and (max-width: 600px) {
+    #info-track h1 {
+        font-size: 1.5rem;
+    }
 }
 
 #info-track img {
-    padding: 10% 10% 1%;
+    padding: 5% 10% 1%;
     filter: drop-shadow(2px 4px 6px black);
 }
 
 #info-track .info-track__buttons {
     display: flex;
     justify-content: center;
-    margin-bottom: 50px;
+    padding: 0px 20vw;
+}
+
+@media screen and (max-width: 950px) {
+    #info-track .info-track__buttons {
+        padding: 0px 15vw;
+    }
+}
+
+#info-track .info-track__buttons a {
+    flex: 1;
+    display: flex;
+    margin: 0px 5px;
+}
+
+#info-track .info-track__buttons button {
+    flex: 1;
 }
 
 #info-track .info-track__buttons a {
@@ -68,6 +110,29 @@
 
 .sun #info-track .info-track__buttons .btn--primary:hover {
     background-color: var(--moon-color);
+}
+
+.moon .buttons-wrapper,
+.sun .buttons-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 35px 0px;
+}
+
+.moon .buttons-wrapper button,
+.sun .buttons-wrapper button {
+    font-size: 1.3rem;
+}
+
+@media screen and (max-width: 950px) {
+    .moon .buttons-wrapper button,
+    .sun .buttons-wrapper button {
+        font-size: 1.1rem;
+    }   
+}
+
+.sun .buttons-wrapper button {
+    flex: 1;
 }
 
 @media screen and (max-width: 600px) {
