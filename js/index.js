@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add('loaded');
     var headerHeight = 100;
     var scrollHandler = new ScrollHandler();
     var urlHandler = new UrlHandler();

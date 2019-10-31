@@ -19,7 +19,9 @@
 <body class="sun">
   <header id="header">
     <div class="container">
-      <a href="index.html#inici" title="Ir a la página de inicio"><img src="img/equinox-logo--white.png" alt="Logo Equinox" class="header__logo floatleft"></a>
+      <a href="index.html#inici" title="Ir a la página de inicio">
+        <div src="img/equinox-logo--white.png" alt="Logo Equinox" class="header__logo floatleft"></div>
+      </a>
       </div>
       <nav id=navBurger" class="navmenu-burger floatright">
         <div class="navmenu-burger__icon"></div>
@@ -45,18 +47,25 @@
     </header>
   <div id="home" class="content">
     <section class="parallax section sun" id="info-track">
-      <h1>EQUINOX SUN</h1>
-      <img src="img/profiel--white.png" />
+      <h1 class="breadcrumb">EQUINOX SUN</h1>
+      <p>Pels valents que heu superat la nit i per aquells que voleu posar-vos a prova en un circuit únic, encara us queda el dia. Veniu a desafiar la llum del sol i deixeu-vos sorprendre pels colors de la serra de Collserola. Redescobriu la cursa fent el recorregut invers i endinseu-vos en la segona prova de la lliga Equinox Trail. Gaudiu de les últimes llums de l’estiu.</p>
+      <img src="img/profiel__sun--white.png" />
       <div class="info-track__buttons">
-        <button class="btn btn--primary"><a target="__blank" href="https://www.google.com/maps/d/u/0/edit?mid=1VXm-eYtp2qNMqMcnJoxMFYvxoRCypFqp&ll=41.40815817596889%2C2.085284100000081&z=14">Mapa</a></button>
-        <button class="btn btn--primary"><a target="__blank" href="docs/profile.pdf">Perfil PDF</a></button>
-        <button class="btn btn--primary"><a target="__blank" href="https://es.wikiloc.com/rutas-carrera-por-montana/equinox-moon-42482225">Wikiloc</a></button>
+        <a target="__blank" href="https://www.google.com/maps/d/u/0/edit?mid=1VXm-eYtp2qNMqMcnJoxMFYvxoRCypFqp&ll=41.40815817596889%2C2.085284100000081&z=14">
+          <button class="btn btn--primary">Mapa</button>
+        </a>
+        <a target="__blank" href="docs/profile.pdf">
+          <button class="btn btn--primary">Perfil PDF</button>
+        </a>
+        <a target="__blank" href="https://es.wikiloc.com/rutas-carrera-por-montana/equinox-moon-42482225">
+          <button class="btn btn--primary">Wikiloc</button>
+        </a>
       </div>
-      <p>Pels valents que heu superat la nit i per aquells que voleu posar-vos a prova en un circuit únic, encara us queda el dia.</p>
-      <p>Veniu a desafiar la llum del sol i deixeu-vos sorprendre pels colors de la serra de Collserola.</p>
-      <p>Redescobriu la cursa fent el recorregut invers i endinseu-vos en la segona prova de la lliga Equinox Trail.</p>
-      <p>Gaudiu de les últimes llums de l’estiu.</p>
-      
+      <div class="buttons-wrapper">
+        <a target="__blank" href="https://kilometrezero.org/#/inscriptions?lng=ca">
+          <button class="btn btn--secondary inscriptions">INSCRIPCIONS</button>
+        </a>
+      </div>
       <h2 class="race-details">Fitxa tècnica</h2>
         <!-- <hr/> -->
       <ol>
@@ -89,8 +98,9 @@
       </ol>
     </section>
     <footer>
-      <h2><span>EQUI</span><span>NOX</span> TRAIL 2019</h2>
-      <p class="credits">PijokupaBA Collecive open creative commons liscense 2002</p>
+        <h2>EQUINOX TRAIL 2019</h2>
+        <!-- <h2><span>EQUI</span><span>NOX</span> TRAIL 2019</h2> -->
+        <p class="credits">PijokupaBA Collecive open creative commons liscense 2002</p>
     </footer>
     <!-- <section class="section"></section>
       <!-- scripts -->
