@@ -1,0 +1,37 @@
+#lngMenu
+
+
+  .lng-menu__wrapper
+    height: 100%
+    text-transform: uppercase
+    text-align: right
+    position: relative
+    width: fit-content
+    margin-left: auto
+
+    &:hover
+      .lng-menu__visible
+        display: none
+
+      .lng-menu__list
+        display: block
+
+  .lng-menu__visible
+    color: #222
+    line-height: 100px
+    cursor: pointer
+    color: #dddddd
+
+  .lng-menu__list
+    position: absolute
+    z-indez: 10
+    display: none
+    right: 0px
+    top: 36px
+
+  .lng-menu__list-item
+    cursor: pointer
+    color: #ccc
+
+    &:hover
+      color: #222

@@ -1,3 +1,17 @@
-# img/*
-*.xcf
-# docs/*
+# JAVASCRIPT
+.dist/*
+public/images/*
+public/data/*
+public/fonts/*
+**/node_modules
+
+# PYTHON
+**/__python__
+*.pyc
+bin
+lib
+include
+
+# IDE's
+.idea
+.vscode

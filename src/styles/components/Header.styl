@@ -1,0 +1,113 @@
+header
+    height: $header
+    position: fixed
+    top: 0px
+    left: 0px
+    width: 100%
+    z-index: 1000
+
+    &.green .header__icon
+      color: green
+
+    &.dark .header__link
+      color: black
+
+    &.breadcrumb
+      .header__nav-pannel
+        display: block
+
+      .header__link
+        pointer-events: none
+        font-weight: bold
+
+    .header__content
+      display: flex
+      flex-direction: column
+      height: 100%
+
+    .header__row
+      display: flex
+      padding: 0px 20px
+      flex: 0
+
+      &.header__main-row
+        flex: 1
+
+    .header__icon-wrapper
+      height: 100%
+      padding: 0px 20px
+
+    .header__icon
+      font-size: 50px
+      font-weight: bold
+      color: $magenta
+      text-align: center
+      cursor: pointer
+      line-height: $header
+      transition: color .5s
+
+    .header__links-wrapper
+      display: flex
+      flex: 1
+
+      @media screen and (max-width: 950px)
+        display: none
+
+    .header__burger-wrapper
+      flex: 1
+      display: none
+
+      @media screen and (max-width: 950px)
+        display: block
+
+    .header__burger
+      width: fit-content
+      position: relative
+      display: flex
+      padding-top: 36px
+
+      &:hover
+        .header__burger-expanded
+          display: inline-flex
+          flex-direction: column
+
+      .header__link
+        line-height: 2
+
+    .header__burger-collapsed
+      display: inline
+      font-size: 1.2rem
+      margin-right: 5px
+
+    .header__burger-expanded
+      display: none
+
+    .header__link
+        margin: 0px 10px
+        color: white
+        font-size: 17px
+        line-height: $header
+        font-weight: 300
+        text-transform: uppercase
+        cursor: pointer
+        transition: color .5s, font-weight .3s
+
+        &:hover
+            text-decoration: underline
+
+        &.active
+          font-weight: 600
+
+    .header__lng-menu
+      flex: 0
+
+    .header__nav-pannel
+      display: none
+
+    .header__nav-btn
+      color: $magenta
+      font-size: 3.5rem
+      text-align: left
+      cursor: pointer
+      line-height: 45px
+      font-weight: 300
