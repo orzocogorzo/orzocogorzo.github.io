@@ -1011,16 +1011,16 @@ const Header = (function () {
     };
 
     Header.prototype.onClickLink = function onClickLink (ev) {
+        this.app.scroll.currentSection = this.data.sections
+            .map(d => d.id).indexOf(ev.srcElement.getAttribute("link"));
         window.scrollTo({
             top: document.getElementById(ev.srcElement.getAttribute("link")).offsetTop,
             behavior: ev.detail.smooth === false ? "auto" : "smooth"
         });
-        this.onScroll(this.data.sections.map(d => d.id).indexOf(ev.srcElement.getAttribute("link")));
         this.app.router.silentNavigation(this.app.router.generate("home-section", {
             section: ev.srcElement.getAttribute("link")
         }));
     };
- 
 
     return Header;
 })();
@@ -1592,31 +1592,31 @@ const ScrollHandler = (function() {
     };
 
     ScrollHandler.prototype.onWheel = function onWheel (ev) {
-        const self = this;
+        if (this.scrolling) return;
         this.currentSection += (ev.deltaY < 0 ? -1 : 1);
-        this.scrolling = true;
         window.scrollTo({
             top: this.sections[this.currentSection].offsetTop,
             behavior: "smooth"
         });
     };
 
-    ScrollHandler.prototype.onScroll = (function () {
-        var lastTrigger = Date.now();
-        var delayed, targetEl, bounding;
-        return function (ev) {
-            targetEl = this.sections[this.currentSection];
-            bounding = targetEl.getBoundingClientRect();
-            if (Math.abs(bounding.top) + Math.abs(window.innerHeight - bounding.bottom) == 0) {
-                this.scrolling = false;
-                const targetURL = this.app.router.generate("home-section", {
-                    section: targetEl.id
-                });
-                if (location.hash.replace(/\?.*$/, '') != targetURL) this.app.router.silentNavigation(targetURL);
-                this.afterScroll(ev);
-            }
-        };
-    })();
+    ScrollHandler.prototype.onScroll = function (ev) {
+        this.scrolling = true;
+        const targetEl = this.sections[this.currentSection];
+        const bounding = targetEl.getBoundingClientRect();
+        if (
+            Math.abs(bounding.top) + Math.abs(window.innerHeight - bounding.bottom) == 0
+            // case when its on bottom of scroll
+                || window.scrollY === document.body.offsetHeight - window.innerHeight
+        ) {
+            this.scrolling = false;
+            const targetURL = this.app.router.generate("home-section", {
+                section: targetEl.id
+            });
+            if (location.hash.replace(/\?.*$/, '') != targetURL) this.app.router.silentNavigation(targetURL);
+            this.afterScroll(ev);
+        }
+    };
 
     ScrollHandler.prototype.afterScroll = function afterScroll (ev) {
         var bounding, fit, currentSection;
@@ -1765,8 +1765,13 @@ const Gallery = (function () {
 
     var Gallery = function (el, template) {
         const self = this;
-        this.load(_env.apiURL + "gallery_images.json").then(function (response) { 
-            self.data = JSON.parse(response);
+        this.load(_env.apiURL + "gallery_images.json").then(function (response) {
+            const data = JSON.parse(response);
+            data.images = data.images.map(img => {
+                img["thumbnail"] = img["file"].replace(/\.(jpg|png|jpeg)/, "--small." + img.file.match(/\.([a-zA-Z]*$)/)[1]);
+                return img;
+            });
+            self.data = data;
         });
         this.app.header.setSections([]);
     };
@@ -1825,6 +1830,9 @@ const Home = (function () {
         this.fetchChilds(this.app.homeSections).then(function () {
             self.data.sections = self.app.homeSections;
         });
+
+        this.lazyLoadSectionBackground = this.lazyLoadSectionBackground.bind(this);
+        this.app.scroll.on("update:section", this.lazyLoadSectionBackground);
     });
 
     Home.prototype.onUpdate = function onUpdate () {
@@ -1833,6 +1841,7 @@ const Home = (function () {
 
     Home.prototype.beforeRender = function beforeRender () {
         this.app.header.setSections(this.data.sections);
+        document.body.getElementsByTagName("footer")[0].classList.add("scroll-section");
     };
 
     Home.prototype.onRender = function onRender () {
@@ -1843,6 +1852,7 @@ const Home = (function () {
                 app: this.app,
                 name: section.id
             });
+            section.view.el.classList.add("lazy");
             if (section.id === this.url.params.section) {
                 currentSection = i;
             }
@@ -1865,6 +1875,10 @@ const Home = (function () {
         this.app.scroll.unpatch();
     };
 
+    Home.prototype.onRemove = function onRemove () {
+        document.body.getElementsByTagName("footer")[0].classList.remove("scroll-section");
+    };
+
     Home.prototype.fetchChilds = function fetchChilds (sections) {
         const self = this;
         return Promise.all(sections.map(function (section) {
@@ -1878,6 +1892,10 @@ const Home = (function () {
                     });
             });
         }));
+    };
+
+    Home.prototype.lazyLoadSectionBackground = function lazyLoadSectionBackground (section) {
+        this.data.sections[section] && this.data.sections[section].view.el.classList.remove("lazy");
     };
 
     return Home;
