@@ -757,7 +757,7 @@ if (document.addEventListener) {
 
 },{"./scripts/App.js":4}],4:[function(require,module,exports){
 const Lng = require("./utils/Lng.js");
-const Router = require("./router/Router.js");
+const Router = require("./core/Router.js");
 const ScrollHandler = require("./utils/ScrollHandler.js");
 
 // COMPONENTS
@@ -898,7 +898,7 @@ module.exports = function App () {
         .then(startApp);
 };
 
-},{"./components/Footer.js":5,"./components/Header.js":6,"./router/Router.js":10,"./utils/Lng.js":12,"./utils/ScrollHandler.js":13,"./views/home-sections/Cover.js":19,"./views/home-sections/Documents.js":20,"./views/home-sections/Gallery.js":21,"./views/home-sections/Manifest.js":22,"./views/home-sections/Project.js":23,"./views/home-sections/Sponsors.js":24,"./views/home-sections/Team.js":25}],5:[function(require,module,exports){
+},{"./components/Footer.js":5,"./components/Header.js":6,"./core/Router.js":10,"./utils/Lng.js":12,"./utils/ScrollHandler.js":13,"./views/home-sections/Cover.js":18,"./views/home-sections/Documents.js":19,"./views/home-sections/Gallery.js":20,"./views/home-sections/Manifest.js":21,"./views/home-sections/Project.js":22,"./views/home-sections/Sponsors.js":23,"./views/home-sections/Team.js":24}],5:[function(require,module,exports){
 const BaseView = require("../core/BaseView.js");
 
 
@@ -1049,6 +1049,8 @@ const LngMenu = (function () {
         }
         this.data.languages = languages;
         this.onClickItem = this.onClickItem.bind(this);
+        this.onClickVisible = this.onClickVisible.bind(this);
+        this.onClickOut = this.onClickOut.bind(this);
         this.render();
     });
 
@@ -1059,12 +1061,36 @@ const LngMenu = (function () {
         const currentLanguage = this.data.languages.filter(lng => {
             return lng.id == this.app.lng.currentLanguage;
         }).pop();
-        this.el.querySelector(".lng-menu__visible").innerText = currentLanguage.name;
+        const visible = this.el.querySelector(".lng-menu__visible");
+        visible.addEventListener("click", this.onClickVisible);
+        visible.innerText = currentLanguage.name;
     };
 
     LngMenu.prototype.onClickItem = function onClickItem (ev) {
-        this.el.querySelector(".lng-menu__visible").innerText = ev.currentTarget.innerText;
+        ev.stopPropagation();
+        ev.preventDefault();
+        this.el.classList.remove("expanded");
+        const visible = this.el.querySelector(".lng-menu__visible");
+        visible.addEventListener("click", this.onClickVisible);
+        visible.innerText = ev.currentTarget.innerText;
+        document.body.removeEventListener("click", this.onClickOut);
         this.app.lng.currentLanguage = ev.currentTarget.id;
+    };
+
+    LngMenu.prototype.onClickVisible = function onClickVisible (ev) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        this.el.classList.add("expanded");
+        this.el.querySelector(".lng-menu__visible").removeEventListener("click", this.onClickVisible);
+        document.body.addEventListener("click", this.onClickOut);
+    };
+
+    LngMenu.prototype.onClickOut = function onClickOut (ev) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        if (!this.el.contains(ev.currentTarget)) this.el.classList.remove("expanded");
+        document.body.removeEventListener("click", this.onClickOut);
+        this.el.querySelector(".lng-menu__visible").addEventListener("click", this.onClickVisible);
     };
 
     return LngMenu;
@@ -1272,13 +1298,13 @@ module.exports = Dispatcher;
 const Navigo = require("navigo");
 
 // ROUTES
-const routes = require("./routes.js");
+const routes = require("../router/routes.js");
 
 // SOURCE
 const Dispatcher = require("../core/Dispatcher.js");
 
 
-const Router = (function() {
+const Router = (function () {
     // PRIVATE CODE BLOCK
     function clearContent (cssEl) {
         const el = document.querySelector(cssEl);
@@ -1394,11 +1420,10 @@ const Router = (function() {
 
 module.exports = Router;
 
-},{"../core/Dispatcher.js":9,"./routes.js":11,"navigo":2}],11:[function(require,module,exports){
+},{"../core/Dispatcher.js":9,"../router/routes.js":11,"navigo":2}],11:[function(require,module,exports){
 // VIEWS
 const Home = require("../views/Home.js");
 const Project = require("../views/Project.js");
-const Documents = require("../views/Documents.js");
 const Gallery = require("../views/Gallery.js");
 const Equip = require("../views/Equip.js");
 
@@ -1427,14 +1452,6 @@ module.exports = {
             view: Project
         }
     },
-    "documents": {
-        as: "documents",
-        uses: {
-            el: "#content",
-            template: "documents.html",
-            view: Documents
-        }
-    },
     "gallery": {
         as: "gallery",
         uses: {
@@ -1453,7 +1470,7 @@ module.exports = {
     }
 }
 
-},{"../views/Documents.js":14,"../views/Equip.js":15,"../views/Gallery.js":16,"../views/Home.js":17,"../views/Project.js":18}],12:[function(require,module,exports){
+},{"../views/Equip.js":14,"../views/Gallery.js":15,"../views/Home.js":16,"../views/Project.js":17}],12:[function(require,module,exports){
 const BaseView = require("../core/BaseView.js");
 
 
@@ -1561,24 +1578,6 @@ const ScrollHandler = (function() {
         window.addEventListener("wheel", onWheel);
         window.addEventListener("mousewheel", onWheel);
 
-        onTouchMove = (function (callback) {
-            var ts, te, last;
-            return function () {
-                if (event.type === "touchmove") {
-                    console.log(last - event.touches[0].clientY, last, event.touches[0].clientY);
-                    last = event.touches[0].clientY;
-                }
-//                if (event.type === "touchstart") {
-//                    ts = event.touches[0].clientY;
-//                } else if ("touchend") {
-//                    te = event.touches[0].clientY;
-//                    callback({
-//                        deltaY: ts - te
-//                    });
-//                }
-            };
-        })(callback);
-
         dropWindow = function () {
             window.removeEventListener("DOMMouseScroll", onWheel);
             window.removeEventListener("touchmove", onWheel);
@@ -1629,7 +1628,6 @@ const ScrollHandler = (function() {
 
     ScrollHandler.prototype.onWheel = function onWheel (ev) {
         if (this.scrolling) return;
-        console.log(ev);
         this.currentSection += (ev.deltaY < 0 ? -1 : 1);
         window.scrollTo({
             top: this.sections[this.currentSection].offsetTop,
@@ -1683,68 +1681,6 @@ module.exports = ScrollHandler;
 const BaseView = require("../core/BaseView.js");
 
 
-const Documents = (function () {
-
-    /// PRIVATE BLOCK CODE
-    var renderCount = 0;
-    /// END OF PRIVATE BLOCK CODE
-
-    var Documents = function (el, template) {
-        const self = this;
-        this.load(_env.apiURL + "documents.json").then(function (response) {
-            // this == funció anonima
-            // self == Documents
-            self.data = JSON.parse(response);
-        });
-    };
-
-    Documents = BaseView.extend(Documents);
-
-    Documents.prototype.onUpdate = function onUpdate () {
-        console.log("Documents updated");
-        this.render();
-    };
-
-    Documents.prototype.onRender = function onRender () {
-        const self = this;
-        for (let doc of self.el.querySelectorAll(".doc-row")) {
-            doc.addEventListener("click", self.onClickDocument);
-        }
-        // const list = document.createElement("ul");
-        // self.data.forEach(function (doc) {
-        //     var link = document.createElement("a");
-        //     link.href = "statics/data/" + doc.file;
-        //     link.setAttribute("target", "_blank");
-        //     var listElement = document.createElement("li");
-        //     listElement.innerText = doc.name;
-        //     listElement.setAttribute("data-file", doc.file);
-        //     link.appendChild(listElement);
-        //     list.appendChild(link);
-        // });
-        // this.el.appendChild(list);
-        console.log("Documents rendered");
-    };
-
-    Documents.prototype.onRemove = function onRemove () {
-        for (let doc of self.el.querySelectorAll(".doc-row")) {
-            doc.removeEventListener("click", self.onClickDocument);
-        }
-        console.log("Documents removed");
-    };
-
-    Documents.prototype.onClickDocument = function (ev) {
-        window.open("statics/data/" + ev.currentTarget.dataset.file);
-    };
-
-    return Documents;
-})();
-
-module.exports = Documents;
-
-},{"../core/BaseView.js":8}],15:[function(require,module,exports){
-const BaseView = require("../core/BaseView.js");
-
-
 const Equip = (function () {
 
     /// PRIVATE BLOCK CODE
@@ -1790,7 +1726,7 @@ const Equip = (function () {
 
 module.exports = Equip;
 
-},{"../core/BaseView.js":8}],16:[function(require,module,exports){
+},{"../core/BaseView.js":8}],15:[function(require,module,exports){
 const BaseView = require("../core/BaseView.js");
 
 
@@ -1802,15 +1738,25 @@ const Gallery = (function () {
 
     var Gallery = function (el, template) {
         const self = this;
-        this.load(_env.apiURL + "gallery_images.json").then(function (response) {
-            const data = JSON.parse(response);
-            data.images = data.images.map(img => {
-                img["thumbnail"] = img["file"].replace(/\.(jpg|png|jpeg)/, "--small." + img.file.match(/\.([a-zA-Z]*$)/)[1]);
-                return img;
-            });
+        this.load(_env.apiURL + "gallery_images.json").then(function (response) { 
+            var data = JSON.parse(response);
+            data.rows = [];
+            var rowindex = -1;
+            var index = 0;
+            for (let img of data.images){
+                if (index % 3 == 0) {
+                    data.rows.push({images: []});
+                    rowindex++;
+                }
+                img.id = "imatge" + index;
+                img.smallfile = img.file.split(".")[0]+"--small."+img.file.split(".")[1]
+                data.rows[rowindex].images.push(img);
+                index = index + 1;
+            }
             self.data = data;
         });
-        this.app.header.setSections([]);
+        this.onClickImage = this.onClickImage.bind(this);
+        this.onCloseOverlay = this.onCloseOverlay.bind(this);
     };
 
     Gallery = BaseView.extend(Gallery);
@@ -1821,7 +1767,7 @@ const Gallery = (function () {
 
     Gallery.prototype.onRender = function onRender () {
         const self = this;
-        for (let img of self.el.querySelectorAll(".img-row")) {
+        for (let img of self.el.querySelectorAll(".img-container img")) {
             img.addEventListener("click", self.onClickImage);
         }
         this.app.header.addClass("green", true);
@@ -1837,11 +1783,37 @@ const Gallery = (function () {
     };
 
     Gallery.prototype.onClickImage = function (ev) {
-        console.log("Has clicat sobre una imàtge!");
-        const ruta = img.getAttribute('src');
+        var overlay = document.querySelector('.overlay');
         overlay.classList.add('activo');
-        document.querySelector('#overlay img').src = ruta;
-		    document.querySelector('#overlay .description').innerHTML = description;
+        if (!this.glider) {
+            new Glider(overlay.querySelector('.glider-images'), {
+                slidesToShow: 1,
+                dots: '.dots',
+                draggable: true,
+                itemWidth: 50,
+                rewind: true,
+                arrows: {
+                    prev: '.glider-prev',
+                    next: '.glider-next'
+                }
+            });
+        } else {
+            this.glider.refresh();
+        }
+        var boton = document.querySelector('#boton-cerrar');
+        boton.addEventListener('click', this.onCloseOverlay);
+        overlay.addEventListener('click', this.onCloseOverlay);
+    };
+
+    Gallery.prototype.onCloseOverlay = function onCloseOverlay (ev) {
+        var overlay = document.querySelector('.overlay');
+        var boton = document.querySelector('#boton-cerrar');
+        if (overlay === ev.target || ev.target.id == "boton-cerrar") {
+            overlay.classList.remove('activo');
+            boton.removeEventListener('click', this.onCloseOverlay);
+            overlay.removeEventListener('click', this.onCloseOverlay);
+        }
+        this.glider = null;
     };
 
     return Gallery;
@@ -1849,7 +1821,7 @@ const Gallery = (function () {
 
 module.exports = Gallery;
 
-},{"../core/BaseView.js":8}],17:[function(require,module,exports){
+},{"../core/BaseView.js":8}],16:[function(require,module,exports){
 // CORE
 const BaseView = require("../core/BaseView.js");
 
@@ -1940,7 +1912,7 @@ const Home = (function () {
 
 module.exports = Home;
 
-},{"../core/BaseView.js":8}],18:[function(require,module,exports){
+},{"../core/BaseView.js":8}],17:[function(require,module,exports){
 const BaseView = require("../core/BaseView.js");
 
 
@@ -1952,21 +1924,22 @@ const Project = (function () {
 
     Project.prototype.onUpdate = function onUpdate () {
         console.log("Project updated");
-    }
+    };
 
     Project.prototype.onRender = function onRender () {
         console.log("Project rendered");
-    }
+    };
 
     Project.prototype.onRemove = function onRemove () {
         console.log("Project removed");
-    }
+    };
 
     return Project;
 })();
 
 module.exports = Project;
-},{"../core/BaseView.js":8}],19:[function(require,module,exports){
+
+},{"../core/BaseView.js":8}],18:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
@@ -1981,29 +1954,85 @@ const Cover = (function() {
 
 module.exports = Cover;
 
-},{"../../core/BaseView.js":8}],20:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],19:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
-const Documents = (function() {
-    const Documents = BaseView.extend(function Documents(el) {
+const Documents = (function () {
+
+    /// PRIVATE BLOCK CODE
+    var renderCount = 0;
+    /// END OF PRIVATE BLOCK CODE
+
+    var Documents = function (el, template) {
         const self = this;
+        this.onClickMain = this.onClickMain.bind(this);
+        this.onMouseLeave = this.onMouseLeave.bind(this);
+        this.onClickDocument = this.onClickDocument.bind(this);
+
+        this.load(_env.apiURL + "documents.json").then(function (response) {
+            self.data = JSON.parse(response);
+        });
+    };
+
+    Documents = BaseView.extend(Documents);
+
+    Documents.prototype.onUpdate = function onUpdate () {
+        console.log("Documents updated");
         this.render();
-    });
-
-    Documents.prototype.onRender = function onRender() {
     };
 
-    Documents.prototype.onRemove = function onRemove() {
+    Documents.prototype.onRender = function onRender () {
+        const self = this;
+        for (let doc of self.el.querySelectorAll(".has_file")) {
+            doc.addEventListener("click", self.onClickDocument);
+        }
+        for (let doc of self.el.querySelectorAll(".doc-col-main")) {
+            doc.addEventListener("mouseover", self.onClickMain);
+        }
+        console.log("Documents rendered");
     };
 
-    Documents.id = "documents";
+    Documents.prototype.beforeRemove = function beforeRemove () {
+        for (let doc of this.el.querySelectorAll(".doc-row")) {
+            doc.removeEventListener("mouseover", self.onClickDocument);
+        }
+        console.log("Documents removed");
+    };
+
+    Documents.prototype.onClickDocument = function (ev) {
+        window.open("public/data/" + ev.currentTarget.dataset.file);
+        document.getElementsByClassName('.doc-col-main').style.display = 'block';
+    };
+
+    Documents.prototype.onClickMain = function (ev) {
+        ev.currentTarget.style.display = 'None' ;
+        subs=ev.currentTarget.parentElement.getElementsByClassName("has_file");
+        for (let sub of subs){
+              sub.style.display = 'block';
+              sub.style.borderColor = '#67A64B';
+		    }
+        ev.currentTarget.parentElement
+            .addEventListener("mouseleave",this.onMouseLeave);
+    };
+
+    Documents.prototype.onMouseLeave = function (ev) {
+        ev.currentTarget.getElementsByClassName("has_file");
+        for (let sub of subs) {
+              sub.style.display = 'none';
+		    }
+        ev.currentTarget
+            .getElementsByClassName("doc-col-main")[0].style.display = "block";
+        ev.currentTarget
+            .removeEventListener("mouseleave",this.onMouseLeave);
+    };
+
     return Documents;
 })();
 
 module.exports = Documents;
 
-},{"../../core/BaseView.js":8}],21:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],20:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
@@ -2035,7 +2064,7 @@ const Gallery = (function() {
 
 module.exports = Gallery;
 
-},{"../../core/BaseView.js":8}],22:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],21:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
@@ -2080,7 +2109,7 @@ const Manifest = (function () {
 
 module.exports = Manifest;
 
-},{"../../core/BaseView.js":8}],23:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],22:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
@@ -2112,29 +2141,57 @@ const Project = (function() {
 
 module.exports = Project;
 
-},{"../../core/BaseView.js":8}],24:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],23:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
-const Sponsors = (function() {
-    const Sponsors = BaseView.extend(function Sponsors(el) {
+const Patrocinadors = (function () {
+
+    /// PRIVATE BLOCK CODE
+    var renderCount = 0;
+    /// END OF PRIVATE BLOCK CODE
+
+    var Patrocinadors = function (el, template) {
         const self = this;
+        this.load(_env.apiURL + "sponsors_images.json")
+            .then(function (response) {
+                self.data = JSON.parse(response);
+            });
+    };
+
+    Patrocinadors = BaseView.extend(Patrocinadors);
+
+    Patrocinadors.prototype.onUpdate = function onUpdate () {
+        console.log("Patrocinadors updated");
         this.render();
-    });
-
-    Sponsors.prototype.onRender = function onRender() {
     };
 
-    Sponsors.prototype.onRemove = function onRemove() {
+    Patrocinadors.prototype.onRender = function onRender () {
+        const self = this;
+        for (let img of self.el.querySelectorAll(".logo-container")) {
+            img.addEventListener("click", self.onClickImage);
+        }
+        console.log("Equip rendered");
     };
 
-    Sponsors.id = "sponsors";
-    return Sponsors;
+    Patrocinadors.prototype.beforeRemove = function beforeRemove () {
+        for (let img of this.el.querySelectorAll(".logo-container")) {
+            img.removeEventListener("click", self.onClickImage);
+        }
+        console.log("Equip removed");
+    };
+
+    Patrocinadors.prototype.onClickImage = function (ev) {
+        console.log("Has clicat sobre una imàtge!");
+        const carouselImages = document.querySelector('');
+    };
+
+    return Patrocinadors;
 })();
 
-module.exports = Sponsors;
+module.exports = Patrocinadors;
 
-},{"../../core/BaseView.js":8}],25:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],24:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
