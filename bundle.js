@@ -1018,10 +1018,6 @@ const Header = (function () {
     Header.prototype.onClickLink = function onClickLink (ev) {
         this.app.scroll.currentSection = this.data.sections
             .map(d => d.id).indexOf(ev.srcElement.getAttribute("link"));
-        /* window.scrollTo({
-            top: document.getElementById(ev.srcElement.getAttribute("link")).offsetTop,
-            behavior: ev.detail.smooth === false ? "auto" : "smooth"
-        }); */
         this.app.router.silentNavigation(this.app.router.generate("home-section", {
             section: ev.srcElement.getAttribute("link")
         }));
@@ -1666,6 +1662,7 @@ const ScrollHandler = (function() {
         this.sections = new Array();
         this.onWheel = this.onWheel.bind(this);
         this.onScroll = this.onScroll.bind(this);
+        this.onResize = this.onResize.bind(this);
 
         var currentSection = 0, tmpVal;
         Object.defineProperty(this, "currentSection", {
@@ -1673,7 +1670,6 @@ const ScrollHandler = (function() {
                 tmpVal = Math.max(0, Math.min(this.sections.length - 1, val));
                 if (tmpVal == currentSection) return;
                 currentSection = tmpVal;
-                // NEW
                 if (val !== null) {
                     window.scrollTo({
                         top: this.sections[currentSection].offsetTop,
@@ -1686,11 +1682,16 @@ const ScrollHandler = (function() {
                         behavior: "auto"
                     });
                 }
-                // END NEW
-                // self.dispatch("update:section", currentSection);
             },
             get: function () {
                 return currentSection;
+            }
+        });
+
+
+        Object.defineProperty(this, "isActive", {
+            get: function () {
+                return this.sections.length > 0;
             }
         });
 
@@ -1708,6 +1709,7 @@ const ScrollHandler = (function() {
         this.currentSection = targetSection;
         addWindow(this.el, this.onWheel);
         window.addEventListener("scroll", this.onScroll);
+        window.addEventListener("resize", this.onResize);
         document.body.classList.add("fixed-viewport");
     };
 
@@ -1715,19 +1717,14 @@ const ScrollHandler = (function() {
         this.sections = new Array();
         dropWindow();
         window.removeEventListener("scroll", this.onScroll);
+        window.removeEventListener("resize", this.onResize);
         document.body.classList.remove("fixed-viewport");
-        // NEW
         this.currentSection = null;
-        // END NEW
     };
 
     ScrollHandler.prototype.onWheel = function onWheel (ev) {
         if (this.scrolling) return;
         this.currentSection += (ev.deltaY < 0 ? -1 : 1);
-        /* window.scrollTo({
-            top: this.sections[this.currentSection].offsetTop,
-            behavior: "smooth"
-        }); */
     };
 
     ScrollHandler.prototype.onScroll = function (ev) {
@@ -1764,6 +1761,13 @@ const ScrollHandler = (function() {
 
     ScrollHandler.prototype.onNavigate = function onNavigate () {
         this.app.router.isOnHome() ? this.patch(0) : this.unpatch();
+    };
+
+    ScrollHandler.prototype.onResize = function onResize () {
+        window.scrollTo({
+            top: this.isActive ? this.sections[this.currentSection].offsetTop : 0,
+            behavior: "auto"
+        });
     };
 
     return ScrollHandler;
