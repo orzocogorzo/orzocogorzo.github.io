@@ -757,7 +757,7 @@ if (document.addEventListener) {
 
 },{"./scripts/App.js":4}],4:[function(require,module,exports){
 const Lng = require("./utils/Lng.js");
-const Router = require("./core/Router.js");
+const AppRouter = require("./router/AppRouter.js");
 const ScrollHandler = require("./utils/ScrollHandler.js");
 
 // COMPONENTS
@@ -846,7 +846,7 @@ function startComponents (app) {
 
 function startApp (app) {
     return new Promise(function (done, error) {
-        app.router = new Router(app).on(function () {
+        app.router = new AppRouter(app).on(function () {
             app.router.navigate(app.router.generate("home-section", {
                 section: "cover"
             }));
@@ -898,7 +898,7 @@ module.exports = function App () {
         .then(startApp);
 };
 
-},{"./components/Footer.js":5,"./components/Header.js":6,"./core/Router.js":10,"./utils/Lng.js":12,"./utils/ScrollHandler.js":13,"./views/home-sections/Cover.js":18,"./views/home-sections/Documents.js":19,"./views/home-sections/Gallery.js":20,"./views/home-sections/Manifest.js":21,"./views/home-sections/Project.js":22,"./views/home-sections/Sponsors.js":23,"./views/home-sections/Team.js":24}],5:[function(require,module,exports){
+},{"./components/Footer.js":5,"./components/Header.js":6,"./router/AppRouter.js":11,"./utils/Lng.js":13,"./utils/ScrollHandler.js":14,"./views/home-sections/Cover.js":19,"./views/home-sections/Documents.js":20,"./views/home-sections/Gallery.js":21,"./views/home-sections/Manifest.js":22,"./views/home-sections/Project.js":23,"./views/home-sections/Sponsors.js":24,"./views/home-sections/Team.js":25}],5:[function(require,module,exports){
 const BaseView = require("../core/BaseView.js");
 
 
@@ -943,7 +943,8 @@ const Header = (function () {
         const self = this;
         Array.apply(null, this.el.getElementsByClassName("header__link"))
             .forEach(link => link.addEventListener("click", this.onClickLink));
-        this.el.querySelector(".header__icon").addEventListener("click", this.navReset);
+        this.el.querySelector(".header__icon")
+            .addEventListener("click", this.navReset);
         fetch(_env.publicURL + "templates/components/lng-menu.html")
             .then(res => {
                 res.text().then(template => {
@@ -983,8 +984,7 @@ const Header = (function () {
     };
 
     Header.prototype.onNavigate = function onNavigate () {
-        const lastRoute = this.app.router.lastRouteResolved();
-        const isHome = !lastRoute.name || lastRoute.name.indexOf("home") > -1;
+        const isHome = this.app.router.isOnHome();
         if (isHome) {
             this.setSections(this.app.homeSections);
         } else {
@@ -1018,10 +1018,10 @@ const Header = (function () {
     Header.prototype.onClickLink = function onClickLink (ev) {
         this.app.scroll.currentSection = this.data.sections
             .map(d => d.id).indexOf(ev.srcElement.getAttribute("link"));
-        window.scrollTo({
+        /* window.scrollTo({
             top: document.getElementById(ev.srcElement.getAttribute("link")).offsetTop,
             behavior: ev.detail.smooth === false ? "auto" : "smooth"
-        });
+        }); */
         this.app.router.silentNavigation(this.app.router.generate("home-section", {
             section: ev.srcElement.getAttribute("link")
         }));
@@ -1048,49 +1048,22 @@ const LngMenu = (function () {
             });
         }
         this.data.languages = languages;
+        this.data.currentLanguage = this.data.languages.filter(lng => {
+            return lng.id == this.app.lng.currentLanguage;
+        }).pop() || "en";
         this.onClickItem = this.onClickItem.bind(this);
-        this.onClickVisible = this.onClickVisible.bind(this);
-        this.onClickOut = this.onClickOut.bind(this);
         this.render();
     });
 
     LngMenu.prototype.onRender = function () {
+        this.el.setAttribute("lang", this.data.currentLanguage.id);
         for (let item of this.el.querySelectorAll(".lng-menu__list-item")) {
             item.addEventListener("click", this.onClickItem);
         };
-        const currentLanguage = this.data.languages.filter(lng => {
-            return lng.id == this.app.lng.currentLanguage;
-        }).pop();
-        const visible = this.el.querySelector(".lng-menu__visible");
-        visible.addEventListener("click", this.onClickVisible);
-        visible.innerText = currentLanguage.name;
     };
 
     LngMenu.prototype.onClickItem = function onClickItem (ev) {
-        ev.stopPropagation();
-        ev.preventDefault();
-        this.el.classList.remove("expanded");
-        const visible = this.el.querySelector(".lng-menu__visible");
-        visible.addEventListener("click", this.onClickVisible);
-        visible.innerText = ev.currentTarget.innerText;
-        document.body.removeEventListener("click", this.onClickOut);
-        this.app.lng.currentLanguage = ev.currentTarget.id;
-    };
-
-    LngMenu.prototype.onClickVisible = function onClickVisible (ev) {
-        ev.stopPropagation();
-        ev.preventDefault();
-        this.el.classList.add("expanded");
-        this.el.querySelector(".lng-menu__visible").removeEventListener("click", this.onClickVisible);
-        document.body.addEventListener("click", this.onClickOut);
-    };
-
-    LngMenu.prototype.onClickOut = function onClickOut (ev) {
-        ev.stopPropagation();
-        ev.preventDefault();
-        if (!this.el.contains(ev.currentTarget)) this.el.classList.remove("expanded");
-        document.body.removeEventListener("click", this.onClickOut);
-        this.el.querySelector(".lng-menu__visible").addEventListener("click", this.onClickVisible);
+        this.app.lng.currentLanguage = ev.currentTarget.getAttribute("lang");
     };
 
     return LngMenu;
@@ -1402,6 +1375,7 @@ const Router = (function () {
                     });
                 });
             }
+            window.scrollTo(0, 0);
         };
     };
 
@@ -1420,7 +1394,103 @@ const Router = (function () {
 
 module.exports = Router;
 
-},{"../core/Dispatcher.js":9,"../router/routes.js":11,"navigo":2}],11:[function(require,module,exports){
+},{"../core/Dispatcher.js":9,"../router/routes.js":12,"navigo":2}],11:[function(require,module,exports){
+// COURE
+const Router = require("../core/Router.js")
+
+// ROUTES
+const routes = require("./routes.js");
+
+
+const AppRouter = (function () {
+    // PRIVATE CODE BLOCK
+    function clearContent (cssEl) {
+        const el = document.querySelector(cssEl);
+        if (el && this.views.get(el)) {
+            this.views.get(el).remove();
+        }
+    }
+    const cache = new Map();
+    // END OF PRIVATE CODE BLOCK
+
+    const AppRouter = function AppRouter (app) {
+        Router.apply(this, arguments);
+
+        const self = this;
+        this.notFound(function (query) {
+            self.views.forEach(function (view) {
+                view.remove();
+            });
+            self.navigate("#home/cover");
+        });
+    };
+
+    AppRouter.prototype = Object.create(Router.prototype);
+
+    AppRouter.prototype.onNavigate = function onNavigate (
+        templateName,
+        cssEl,
+        View,
+        data
+    ) {
+        const self = this;
+        data = data || new Object();
+        return function (params, query) {
+            if (self.silent === true) {
+                self.silent = false;
+                return;
+            }
+            if (cache.get(templateName)) {
+                clearContent.call(self, cssEl);
+                const el = document.querySelector(cssEl);
+                const view = new View(
+                    el,
+                    cache.get(templateName),
+                    Object.assign(data, {
+                        app: self.app,
+                        url: {
+                            params: params,
+                            query: query
+                        }
+                    })
+                );
+                self.views.set(el, view);
+            } else {
+                fetch(_env.publicURL + "templates/" + templateName)
+                    .then(function (res) {
+                        res.text().then(function (template) {
+                            cache.set(templateName, template);
+                            clearContent.call(self, cssEl);
+                            const el = document.querySelector(cssEl);
+                            const view = new View(
+                                el,
+                                template,
+                                Object.assign(data, {
+                                    app: self.app,
+                                    url: {
+                                        params: params,
+                                        query: query
+                                    }
+                                })
+                            );
+                            self.views.set(el, view);
+                    });
+                });
+            }
+        };
+    };
+
+    AppRouter.prototype.isOnHome = function isOnHome () {
+        const lastRoute = this.lastRouteResolved();
+        return !lastRoute.name || lastRoute.name.indexOf("home") > -1;
+    };
+
+    return AppRouter;
+})();
+
+module.exports = AppRouter;
+
+},{"../core/Router.js":10,"./routes.js":12}],12:[function(require,module,exports){
 // VIEWS
 const Home = require("../views/Home.js");
 const Project = require("../views/Project.js");
@@ -1470,7 +1540,7 @@ module.exports = {
     }
 }
 
-},{"../views/Equip.js":14,"../views/Gallery.js":15,"../views/Home.js":16,"../views/Project.js":17}],12:[function(require,module,exports){
+},{"../views/Equip.js":15,"../views/Gallery.js":16,"../views/Home.js":17,"../views/Project.js":18}],13:[function(require,module,exports){
 const BaseView = require("../core/BaseView.js");
 
 
@@ -1537,7 +1607,7 @@ const Lng = (function () {
 
 module.exports = Lng;
 
-},{"../core/BaseView.js":8}],13:[function(require,module,exports){
+},{"../core/BaseView.js":8}],14:[function(require,module,exports){
 // SOURCE
 const Dispatcher = require("../core/Dispatcher.js");
 
@@ -1597,11 +1667,27 @@ const ScrollHandler = (function() {
         this.onWheel = this.onWheel.bind(this);
         this.onScroll = this.onScroll.bind(this);
 
-        var currentSection = 0;
+        var currentSection = 0, tmpVal;
         Object.defineProperty(this, "currentSection", {
             set: function (val) {
-                currentSection = Math.max(0, Math.min(this.sections.length - 1, val));
-                self.dispatch("update:section", currentSection);
+                tmpVal = Math.max(0, Math.min(this.sections.length - 1, val));
+                if (tmpVal == currentSection) return;
+                currentSection = tmpVal;
+                // NEW
+                if (val !== null) {
+                    window.scrollTo({
+                        top: this.sections[currentSection].offsetTop,
+                        behavior: "smooth"
+                    });
+                    this.dispatch("update:section", currentSection);
+                } else {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "auto"
+                    });
+                }
+                // END NEW
+                // self.dispatch("update:section", currentSection);
             },
             get: function () {
                 return currentSection;
@@ -1611,8 +1697,14 @@ const ScrollHandler = (function() {
         this.scrolling = false;
     };
 
-    ScrollHandler.prototype.patch = function (targetSection) {
+    ScrollHandler.prototype.patch = function (targetSection, auto) {
         this.sections = Array.apply(null, document.getElementsByClassName("scroll-section"));
+        if (auto) {
+            window.scrollTo({
+                top: this.sections[targetSection].offsetTop,
+                behavior: "auto"
+            });
+        }
         this.currentSection = targetSection;
         addWindow(this.el, this.onWheel);
         window.addEventListener("scroll", this.onScroll);
@@ -1624,15 +1716,18 @@ const ScrollHandler = (function() {
         dropWindow();
         window.removeEventListener("scroll", this.onScroll);
         document.body.classList.remove("fixed-viewport");
+        // NEW
+        this.currentSection = null;
+        // END NEW
     };
 
     ScrollHandler.prototype.onWheel = function onWheel (ev) {
         if (this.scrolling) return;
         this.currentSection += (ev.deltaY < 0 ? -1 : 1);
-        window.scrollTo({
+        /* window.scrollTo({
             top: this.sections[this.currentSection].offsetTop,
             behavior: "smooth"
-        });
+        }); */
     };
 
     ScrollHandler.prototype.onScroll = function (ev) {
@@ -1668,8 +1763,7 @@ const ScrollHandler = (function() {
     };
 
     ScrollHandler.prototype.onNavigate = function onNavigate () {
-        const isHome = this.app.router.lastRouteResolved().name.indexOf("home") > -1;
-        isHome === true ? this.patch() : this.unpatch();
+        this.app.router.isOnHome() ? this.patch(0) : this.unpatch();
     };
 
     return ScrollHandler;
@@ -1677,7 +1771,7 @@ const ScrollHandler = (function() {
 
 module.exports = ScrollHandler;
 
-},{"../core/Dispatcher.js":9}],14:[function(require,module,exports){
+},{"../core/Dispatcher.js":9}],15:[function(require,module,exports){
 const BaseView = require("../core/BaseView.js");
 
 
@@ -1690,14 +1784,16 @@ const Equip = (function () {
     var Equip = function (el, template) {
         const self = this;
         this.load(_env.apiURL + "equip_images.json").then(function (response) { 
-            self.data = JSON.parse(response);
+            const data = JSON.parse(response);
+            data.images.forEach(img => img.file = _env.publicURL + "images/equip/" + img.file);
+            data.images2.forEach(img => img.file = _env.publicURL + "images/equip/collaboradors/" + img.file);
+            self.data = data;
         });
     };
 
     Equip = BaseView.extend(Equip);
 
     Equip.prototype.onUpdate = function onUpdate () {
-        console.log("Equip updated");
         this.render();
     };
 
@@ -1706,18 +1802,15 @@ const Equip = (function () {
         for (let img of self.el.querySelectorAll(".img-row")) {
             img.addEventListener("click", self.onClickImage);
         }
-        console.log("Equip rendered");
     };
 
     Equip.prototype.beforeRemove = function onRemove () {
         for (let img of this.el.querySelectorAll(".img-row")) {
             img.removeEventListener("click", this.onClickImage);
         }
-        console.log("Equip removed");
     };
 
     Equip.prototype.onClickImage = function (ev) {
-        console.log("Has clicat sobre una imàtge!");
         const carouselImages = document.querySelector('.img-row')
     };
 
@@ -1726,7 +1819,7 @@ const Equip = (function () {
 
 module.exports = Equip;
 
-},{"../core/BaseView.js":8}],15:[function(require,module,exports){
+},{"../core/BaseView.js":8}],16:[function(require,module,exports){
 const BaseView = require("../core/BaseView.js");
 
 
@@ -1821,7 +1914,7 @@ const Gallery = (function () {
 
 module.exports = Gallery;
 
-},{"../core/BaseView.js":8}],16:[function(require,module,exports){
+},{"../core/BaseView.js":8}],17:[function(require,module,exports){
 // CORE
 const BaseView = require("../core/BaseView.js");
 
@@ -1842,6 +1935,8 @@ const Home = (function () {
 
         this.lazyLoadSectionBackground = this.lazyLoadSectionBackground.bind(this);
         this.app.scroll.on("update:section", this.lazyLoadSectionBackground);
+
+        this.onMobileScroll = this.onMobileScroll.bind(this);
     });
 
     Home.prototype.onUpdate = function onUpdate () {
@@ -1864,14 +1959,16 @@ const Home = (function () {
             section.view.el.classList.add("lazy");
             if (section.id === this.url.params.section) {
                 currentSection = i;
+                this.lazyLoadSectionBackground(i);
+            } else {
+                i++;
             }
-            i++;
         }
 
-        this.app.scroll.patch(currentSection);
-        window.scrollTo({
-            top: this.el.querySelector(`#${this.url.params.section}`).offsetTop,
-            behavior: "auto"
+        this.app.scroll.patch(currentSection, true);
+
+        this.el.querySelectorAll(".home__nav-btn").forEach(btn => {
+            btn.addEventListener("click", this.onMobileScroll);
         });
     };
 
@@ -1907,12 +2004,20 @@ const Home = (function () {
         this.data.sections[section] && this.data.sections[section].view.el.classList.remove("lazy");
     };
 
+    Home.prototype.onMobileScroll = function onMobileScroll (ev) {
+        if (ev.currentTarget.getAttribute("dir") == "top") {
+            this.app.scroll.currentSection--;
+        } else {
+            this.app.scroll.currentSection++;
+        }
+    };
+
     return Home;
 })();
 
 module.exports = Home;
 
-},{"../core/BaseView.js":8}],17:[function(require,module,exports){
+},{"../core/BaseView.js":8}],18:[function(require,module,exports){
 const BaseView = require("../core/BaseView.js");
 
 
@@ -1939,7 +2044,7 @@ const Project = (function () {
 
 module.exports = Project;
 
-},{"../core/BaseView.js":8}],18:[function(require,module,exports){
+},{"../core/BaseView.js":8}],19:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
@@ -1954,7 +2059,7 @@ const Cover = (function() {
 
 module.exports = Cover;
 
-},{"../../core/BaseView.js":8}],19:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],20:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
@@ -2032,7 +2137,7 @@ const Documents = (function () {
 
 module.exports = Documents;
 
-},{"../../core/BaseView.js":8}],20:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],21:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
@@ -2064,7 +2169,7 @@ const Gallery = (function() {
 
 module.exports = Gallery;
 
-},{"../../core/BaseView.js":8}],21:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],22:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
@@ -2109,7 +2214,7 @@ const Manifest = (function () {
 
 module.exports = Manifest;
 
-},{"../../core/BaseView.js":8}],22:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],23:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
@@ -2141,7 +2246,7 @@ const Project = (function() {
 
 module.exports = Project;
 
-},{"../../core/BaseView.js":8}],23:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],24:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
@@ -2191,7 +2296,7 @@ const Patrocinadors = (function () {
 
 module.exports = Patrocinadors;
 
-},{"../../core/BaseView.js":8}],24:[function(require,module,exports){
+},{"../../core/BaseView.js":8}],25:[function(require,module,exports){
 const BaseView = require("../../core/BaseView.js");
 
 
