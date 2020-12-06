@@ -997,10 +997,7 @@ const Header = (function () {
     Header.prototype.onScroll = function onScroll (section) {
         this.addClass("dark", [1, 5, 6, 7].indexOf(section) != -1);
         this.addClass("green", [3, 5, 6].indexOf(section) != -1);
-        Array.apply(null, this.el.querySelectorAll(".header__link"))
-            .forEach(function (el, i) {
-                el.classList[i % 7 === section ? "add" : "remove"]("active");
-            });
+        this.updateMenus(section);
     };
 
     Header.prototype.addClass = function turnDark (val, bool) {
@@ -1013,6 +1010,13 @@ const Header = (function () {
 
     Header.prototype.onBreadcrumb = function onBreadcrumb () {
         history.back();
+    };
+
+    Header.prototype.updateMenus = function updateMenus (section) {
+        Array.apply(null, this.el.querySelectorAll(".header__link"))
+            .forEach(function (el, i) {
+                el.classList[i % 7 === section ? "add" : "remove"]("active");
+            });
     };
 
     Header.prototype.onClickLink = function onClickLink (ev) {
@@ -1731,6 +1735,7 @@ const ScrollHandler = (function() {
         this.scrolling = true;
         const targetEl = this.sections[this.currentSection];
         const bounding = targetEl.getBoundingClientRect();
+        debugger;
         if (
             Math.abs(bounding.top) + Math.abs(window.innerHeight - bounding.bottom) == 0
             // case when its on bottom of scroll
@@ -1746,6 +1751,7 @@ const ScrollHandler = (function() {
     };
 
     ScrollHandler.prototype.afterScroll = function afterScroll (ev) {
+        debugger;
         var bounding, fit, currentSection;
         this.sections.reduce(function (acum, section, i) {
             bounding = section.getBoundingClientRect();
@@ -1938,8 +1944,10 @@ const Home = (function () {
         });
 
         this.lazyLoadSectionBackground = this.lazyLoadSectionBackground.bind(this);
-        this.app.scroll.on("update:section", this.lazyLoadSectionBackground);
-
+        this.app.scroll.on("update:section", function (section) {
+            self.lazyLoadSectionBackground(section);
+            self.el.children[0].classList[[1, 5, 6, 7].indexOf(section) >= 0 ? "add" : "remove"]("dark");
+        });
         this.onMobileScroll = this.onMobileScroll.bind(this);
     });
 
@@ -1964,6 +1972,7 @@ const Home = (function () {
             if (section.id === this.url.params.section) {
                 currentSection = i;
                 this.lazyLoadSectionBackground(i);
+                this.app.header.updateMenus(i);
             } else {
                 i++;
             }
